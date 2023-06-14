@@ -1,0 +1,1 @@
+Feature: Consult game rules

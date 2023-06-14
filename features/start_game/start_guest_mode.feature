@@ -1,0 +1,1 @@
+Feature: Start guest mode
