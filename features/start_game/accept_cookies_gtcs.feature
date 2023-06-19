@@ -1,1 +1,0 @@
-Feature: Accept cookies and GTC

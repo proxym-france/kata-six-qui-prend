@@ -135,7 +135,7 @@ describe('Game', () => {
   })
 
   it('Forces a player to play a higher card unless they do not have any', () => {
-    const { game, player1 } = initGame();
+    const { game, player1 } = initGame('123');
 
     game.start();
 
