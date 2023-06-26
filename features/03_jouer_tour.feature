@@ -11,7 +11,7 @@ Fonctionnalité: Jouer son tour
   Le plateau
   Uniquement ses cartes
 
-  Règle: Le joueur ne voit que leurs cartes
+  Règle: Le joueur ne voit que ses cartes
     Exemple: Premieur joueur ne voit pas les cartes du 2eme
       Etant donné la partie a deux joueurs
       Lorsque c'est au premier joueur de jouer

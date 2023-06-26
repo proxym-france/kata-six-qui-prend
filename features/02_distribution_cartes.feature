@@ -6,12 +6,8 @@ Fonctionnalité: Distribution des cartes
   Pour que je puisse commencer à jouer plus vite
 
   Au total, il y a 104 cartes dans le jeu, numérottées de 1 à 104
-  Les cartes du jeu ont une valeur différente en fonction de leur numéro, tel que :
-  1 tête de boeuf : Celles qui ne sont pas citées ci dessous entre 1 et 104
-  2 têtes de boeuf : 5; 15; 25; 35; 45; 65; 75; 85; 95
-  3 têtes de boeuf : 10; 20; 30; 40; 50; 60; 70; 80; 90; 100
-  5 têtes de boeuf : 11; 22; 33; 44; 55; 66; 77; 88; 99
-  7 têtes de boeuf : 55
+  Chaque carte a un numéro attribué de 1 à 104
+
 
   Règle: Chaque joueur reçoi 10 cartes aléatoires au début de la partie
     Exemple: 10 cartes aléatoires

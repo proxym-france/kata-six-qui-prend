@@ -1,17 +1,16 @@
 # language: fr
-
 Fonctionnalité: Définir les joueurs
   En tant que game master
   Je souhaite définir le nombre de joueurs
   Pour que tout le monde autour de la table puisse jouer
 
   Règle: Le nombre de joueurs est de 2 à 10
-    Exemple: Starting a game with 2 players
+    Exemple: Minimum de joueurs
       Etant donné le maître du jeu sélectionne 2 joueurs
       Lorsqu'on essaie de démarrer la partie
       Alors la partie démarre
 
-    Exemple: Jeu avec 1 seul joueur
+    Exemple: Trop peu de joueurs
       Etant donné le maître du jeu sélectionne 1 seul joueur
       Lorsque on essaie de démarrer la partie
       Alors la partie ne démarre pas
