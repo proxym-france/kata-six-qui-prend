@@ -3,3 +3,5 @@ node_modules
 dist
 coverage
 target
+/.vs
+/Csharp/Six_Qui_Prend_Tests/.vs
