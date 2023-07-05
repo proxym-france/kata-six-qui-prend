@@ -4,11 +4,10 @@ Feature: Points Collection
   To determine the winner.
 
   The game cards have different values based on their number, as follows:
-  1 cow head: Those not mentioned below between 1 and 104
-  2 cow heads: 5, 15, 25, 35, 45, 65, 75, 85, 95
-  3 cow heads: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
-  5 cow heads: 11, 22, 33, 44, 55, 66, 77, 88, 99
-  7 cow heads: 55
+  Cards ending at 5 have 2 beef heads
+  Cards ending at 0 have 3 beef heads
+  Cards having twice the same digit (11, 22, etc.) have 5 beef heads
+  Card 55 has both same digits and ending in 5 so it has 7 beef heads
 
   Rule: By picking up a column, the player collects the sum of the points of the collected cards.
     Example: Placing the 7th card on a column
