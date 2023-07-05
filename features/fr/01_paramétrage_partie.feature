@@ -1,5 +1,5 @@
 # language: fr
-Fonctionnalité: Définir les joueurs
+Fonctionnalité: Paramétrage de la partie
   En tant que game master
   Je souhaite définir le nombre de joueurs
   Pour que tout le monde autour de la table puisse jouer
