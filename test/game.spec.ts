@@ -112,7 +112,7 @@ describe('Game', () => {
     expect(() => player1.playCard(player1.hand[0].number)).toThrow();
   })
 
-  it('Increases player\'s points when they pick up a column', () => {
+  it('Increases player\'s points when they pick up a row', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { game, player1, player2 } = initGame('123');
 
@@ -174,7 +174,7 @@ describe('Game', () => {
     expect(game.ended).toBe(true);
   })
 
-  it('Cards are not placed in columns before all players played', () => {
+  it('Cards are not placed in rows before all players played', () => {
     const { game, player1 } = initGame('123');
 
     game.start();

@@ -1,16 +1,16 @@
-import { Column } from '../src/model/column';
+import { Row } from '../src/model/row';
 import { Card } from '../src/model/card';
 
-describe('Column', () => {
+describe('Row', () => {
   it('Can be picked up when 6 cards placed', () => {
-    const col = initColumn();
+    const col = initRows();
 
     const result = col.addCard(new Card(6));
     expect(result?.length).toBe(5);
   })
 
-  it('After a column is picked up the last card becomes the first', () => {
-    const col = initColumn();
+  it('After a row is picked up the last card becomes the first', () => {
+    const col = initRows();
 
     const card = new Card(55);
     col.addCard(card);
@@ -20,7 +20,7 @@ describe('Column', () => {
   })
 
   it('Cannot have two times the same card', () => {
-    const col = initColumn();
+    const col = initRows();
 
     const card = new Card(55);
     col.addCard(card);
@@ -28,8 +28,8 @@ describe('Column', () => {
   })
 })
 
-const initColumn = (): Column => {
-  const col = new Column();
+const initRows = (): Row => {
+  const col = new Row();
 
   col.addCard(new Card(1));
   col.addCard(new Card(2));

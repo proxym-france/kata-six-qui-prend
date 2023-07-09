@@ -1,7 +1,7 @@
 import { type Card } from './card';
-import { Column } from './column';
+import { Row } from './row';
 
-export enum BoardColumn {
+export enum BoardRow {
   FIRST = 0,
   SECOND = 1,
   THIRD = 2,
@@ -9,10 +9,10 @@ export enum BoardColumn {
 }
 
 export class Board {
-  private readonly _columns: Column[] = [new Column(), new Column(), new Column(), new Column()];
+  private readonly _rows: Row[] = [new Row(), new Row(), new Row(), new Row()];
 
   public get cards(): Card[] {
-    return this._columns.map((col) => col.cards).flatMap(cards => cards);
+    return this._rows.map((col) => col.cards).flatMap(cards => cards);
   }
 
   public addCard(card: Card | undefined): Card[] | undefined {
@@ -22,60 +22,60 @@ export class Board {
 
     let cardPlaced = false;
     let previousDiff = 105;
-    let columnToPlace = 0;
+    let rowToPlace = 0;
     let result;
 
     // check if card is smaller than all last cards
     if (this.cardIsSmallerThanAll(card)) {
-      const columnWithLeastPoints = this.columnWithLeastPoints();
-      columnWithLeastPoints.addCard(card);
-      return columnWithLeastPoints.pickUp();
+      const rowWithLeastPoints = this.leastPoints();
+      rowWithLeastPoints.addCard(card);
+      return rowWithLeastPoints.pickUp();
     } else {
-      for (const col of this._columns) {
-        const lastCardInColumn = col.lastCard;
+      for (const col of this._rows) {
+        const lastCardInRow = col.lastCard;
 
-        if (lastCardInColumn == null) {
+        if (lastCardInRow == null) {
           result = col.addCard(card);
           cardPlaced = true;
           break;
         }
 
-        if (card.number - lastCardInColumn.number < 0) {
+        if (card.number - lastCardInRow.number < 0) {
           continue;
         }
 
-        if (card.number - lastCardInColumn.number < previousDiff) {
-          previousDiff = card.number - lastCardInColumn.number
-          columnToPlace = this._columns.indexOf(col);
+        if (card.number - lastCardInRow.number < previousDiff) {
+          previousDiff = card.number - lastCardInRow.number
+          rowToPlace = this._rows.indexOf(col);
         }
       }
 
       if (!cardPlaced) {
-        result = this._columns[columnToPlace].addCard(card);
+        result = this._rows[rowToPlace].addCard(card);
       }
     }
 
     return result;
   }
 
-  private columnWithLeastPoints(): Column {
-    let column: Column = this._columns[0];
-    let leastPoints = column.points;
+  private leastPoints(): Row {
+    let row: Row = this._rows[0];
+    let leastPoints = row.points;
 
-    for (const col of this._columns) {
+    for (const col of this._rows) {
       if (col.points < leastPoints) {
         leastPoints = col.points;
-        column = col;
+        row = col;
       }
     }
 
-    return column;
+    return row;
   }
 
   public cardIsSmallerThanAll(card: Card): boolean {
     let isSmaller = true;
 
-    for (const col of this._columns) {
+    for (const col of this._rows) {
       if (col.lastCard == null) {
         return false;
       }
@@ -85,7 +85,7 @@ export class Board {
     return isSmaller;
   }
 
-  public getColumn(number: BoardColumn): Column {
-    return this._columns[number];
+  public getRow(number: BoardRow): Row {
+    return this._rows[number];
   }
 }

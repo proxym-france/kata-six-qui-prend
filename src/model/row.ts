@@ -1,6 +1,6 @@
 import { type Card } from './card';
 
-export class Column {
+export class Row {
   private _cards: Card[] = []
 
   public get lastCard(): Card | undefined {

@@ -1,37 +1,37 @@
-import { Board, BoardColumn } from '../src/model/board';
+import { Board, BoardRow } from '../src/model/board';
 import { Card } from '../src/model/card';
 
 describe('Board', () => {
-  it('Places the first 4 cards in each column', () => {
+  it('Places the first 4 cards in each row', () => {
     const board = new Board();
     const { card1, card3, card2, card4 } = initCards(board);
 
-    expect(board.getColumn(BoardColumn.FIRST).cards).toContain(card1);
-    expect(board.getColumn(BoardColumn.SECOND).cards).toContain(card2);
-    expect(board.getColumn(BoardColumn.THIRD).cards).toContain(card3);
-    expect(board.getColumn(BoardColumn.FOURTH).cards).toContain(card4);
+    expect(board.getRow(BoardRow.FIRST).cards).toContain(card1);
+    expect(board.getRow(BoardRow.SECOND).cards).toContain(card2);
+    expect(board.getRow(BoardRow.THIRD).cards).toContain(card3);
+    expect(board.getRow(BoardRow.FOURTH).cards).toContain(card4);
   })
 
-  it('Playing a lower card will pick the column with smallest result', () => {
+  it('Playing a lower card will pick the row with smallest result', () => {
     const board = new Board();
     initCards(board);
 
     const card = new Card(1);
     const result = board.addCard(card);
 
-    expect(board.getColumn(BoardColumn.FIRST).cards).toContain(card);
-    expect(board.getColumn(BoardColumn.FIRST).cards).toHaveLength(1);
+    expect(board.getRow(BoardRow.FIRST).cards).toContain(card);
+    expect(board.getRow(BoardRow.FIRST).cards).toHaveLength(1);
     expect(result).toEqual(expect.arrayContaining([expect.objectContaining({ number: 8 })]));
   })
 
-  it('Places new cards on the column with the closest possible value', () => {
+  it('Places new cards on the row with the closest possible value', () => {
     const board = new Board();
     initCards(board);
 
     const card: Card = new Card(28);
     board.addCard(card);
 
-    expect(board.getColumn(BoardColumn.FOURTH).lastCard).toBe(card);
+    expect(board.getRow(BoardRow.FOURTH).lastCard).toBe(card);
   })
 })
 
