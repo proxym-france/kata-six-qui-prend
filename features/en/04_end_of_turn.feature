@@ -16,7 +16,7 @@ Feature: End of Turn
 
   Rule: At the end of the turn, the played cards are placed on the board.
     Example: Increasing values
-      Given I have a card larger than the cards on the columns of the board
+      Given I have a card larger than the cards on the rows of the board
       When it's my turn to play
       Then I am obliged to play the larger card.
 
@@ -24,19 +24,19 @@ Feature: End of Turn
     Example: Smallest difference
       And I have played a card that is larger than the cards on the board
       When the turn ends
-      Then my card is placed in the column with the smallest difference.
+      Then my card is placed in the row with the smallest difference.
 
   Rule: Series ended
     Example: A player places the 6th card
-      Given my card will be added as the 6th card on a column
+      Given my card will be added as the 6th card on a row
       When the turn ends
-      Then the column is picked up by me
-      And my card becomes the new first card of the picked up column.
+      Then the row is picked up by me
+      And my card becomes the new first card of the picked up row.
 
   Rule: Unable to play a larger card
     It is possible to play a smaller card if there is no choice.
     Example: Play a smaller card
-      Given that I don't have a card in my hand that is larger than the 4 columns
+      Given that I don't have a card in my hand that is larger than the 4 rows
       When I play a smaller card
-      Then I pick up the column of my choice
-      And my card becomes the new first card of the picked up column.
+      Then I pick up the row of my choice
+      And my card becomes the new first card of the picked up row.
