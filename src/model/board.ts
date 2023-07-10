@@ -81,6 +81,10 @@ export class Board {
     return isSmaller;
   }
 
+  public getRows(): Row[] {
+    return this._rows;
+  }
+
   public getRow(number: BoardRow): Row {
     return this._rows[number];
   }
