@@ -2,9 +2,7 @@ import { Game } from '../src/model/game';
 import { Player } from '../src/model/player';
 import { Card } from '../src/model/card';
 
-const initGame = (
-  seed?: string
-): { game: Game; player1: Player; player2: Player } => {
+const initGame = (seed?: string): { game: Game; player1: Player; player2: Player } => {
   const game = new Game(seed);
   const player1 = new Player('p1');
   const player2 = new Player('p2');
@@ -136,16 +134,43 @@ describe('Game', () => {
     expect(player3.wonCards).toHaveLength(5);
   });
 
-  it('Forces a player to play a higher card unless they do not have any', () => {
-    const { game, player1 } = initGame('123');
+  it.each([0, 2])(
+    'Forces a player to play a higher card unless they do not have any',
+    (cardNumber) => {
+      const { game, player1 } = initGame('123');
 
-    game.start();
+      game.start();
 
-    // eslint-disable-next-line @typescript-eslint/dot-notation
-    player1['_hand'] = [new Card(1), new Card(3)];
+      /* eslint-disable @typescript-eslint/dot-notation */
+      game.board['_rows'][1]['_cards'][0] = new Card(99);
+      game.board['_rows'][1]['_cards'][0] = new Card(98);
+      game.board['_rows'][2]['_cards'][0] = new Card(97);
+      game.board['_rows'][3]['_cards'][0] = new Card(96);
 
-    expect(() => player1.playCard(player1.hand[0].number)).toThrow();
-  });
+      player1['_hand'] = [new Card(1), new Card(100), new Card(4)];
+      expect(() => player1.playCard(player1.hand[cardNumber].number)).toThrow();
+      /* eslint-enable */
+    }
+  );
+
+  it.each([0, 1, 2])(
+    'Allows the player to play any lower card if they have no choice',
+    (cardNumber) => {
+      const { game, player1 } = initGame('123');
+
+      game.start();
+
+      /* eslint-disable @typescript-eslint/dot-notation */
+      game.board['_rows'][1]['_cards'][0] = new Card(99);
+      game.board['_rows'][1]['_cards'][0] = new Card(98);
+      game.board['_rows'][2]['_cards'][0] = new Card(97);
+      game.board['_rows'][3]['_cards'][0] = new Card(96);
+
+      player1['_hand'] = [new Card(1), new Card(2), new Card(3)];
+      expect(() => player1.playCard(player1.hand[cardNumber].number)).not.toThrow();
+      /* eslint-enable */
+    }
+  );
 
   it('Starts at first manche', () => {
     const { game } = initGame('123');

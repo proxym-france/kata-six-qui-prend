@@ -51,14 +51,14 @@ export class Game {
     return this._board;
   }
 
-  private readonly onPlayCard = (player: Player, card: Card): void => {
+  private readonly onPlayCard = (player: Player, playedCard: Card): void => {
     if (player !== this.currentPlayer) {
       throw new Error('Not current player');
     }
-    if (
-      this.board.cardIsSmallerThanAll(card) &&
-      player.hand.find((c) => c.number > card.number) != null
-    ) {
+
+    const hasABiggerCard = player.hand.find((card) => !this.board.cardIsSmallerThanAll(card));
+
+    if (this.board.cardIsSmallerThanAll(playedCard) && hasABiggerCard != null) {
       throw new Error('You need to play a higher card if you have one');
     }
     if (player.hand.length === 0) {
@@ -67,7 +67,7 @@ export class Game {
 
     this._currentPlayer++;
 
-    this._trick.push({ card, player });
+    this._trick.push({ card: playedCard, player });
     console.log('Player played', player);
 
     // Tour completed
