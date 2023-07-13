@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import {
-  HandComponent,
-  type SelectableCard
-} from './components/hand.component';
+import { HandComponent, type SelectableCard } from './components/hand.component';
 import { type Game } from './model/game';
 import { type Card } from './model/card';
 import { type Player } from './model/player';
@@ -60,24 +57,13 @@ function App(props: { game: Game }): React.JSX.Element {
         <HandComponent
           key={state.currentPlayer?.name}
           selectCard={selectCard}
+          playCard={playCard}
           cards={state.hand}
         ></HandComponent>
         <br />
-        <div>
-          <div>current player</div>
-          {props.game.currentPlayer?.name}
-          <div>points</div>
-          {props.game.currentPlayer?.points}
-          <div>highest card</div>
-          {props.game.currentPlayer?.highestCard?.number}
-        </div>
-        <button onClick={playCard}>play card</button>
       </div>
       <div className={'side-content'}>
-        <PlayersComponent
-          players={props.game.players}
-          currentPlayer={state.currentPlayer?.name}
-        />
+        <PlayersComponent players={props.game.players} currentPlayer={state.currentPlayer?.name} />
       </div>
     </div>
   );

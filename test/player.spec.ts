@@ -65,4 +65,24 @@ describe('Player', () => {
 
     expect(player.highestCard).toEqual(expect.objectContaining({ number: 88 }));
   });
+
+  it('Cannot hold more than 10 cards', () => {
+    const player = new Player('p1');
+
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    player['_hand'] = [
+      new Card(1),
+      new Card(2),
+      new Card(3),
+      new Card(4),
+      new Card(5),
+      new Card(6),
+      new Card(7),
+      new Card(8),
+      new Card(9),
+      new Card(10)
+    ];
+
+    expect(() => player.receiveCard(new Card(11))).toThrow();
+  });
 });

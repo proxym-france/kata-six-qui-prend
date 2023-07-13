@@ -4,12 +4,11 @@ import { type SelectableCard } from './hand.component';
 interface CardComponentParams {
   card: SelectableCard;
   selectCard: any;
+  playCard: any;
   selected?: boolean;
 }
 
-export function SelectableCardComponent(
-  props: CardComponentParams
-): React.JSX.Element {
+export function SelectableCardComponent(props: CardComponentParams): React.JSX.Element {
   const className = `card ${props?.card.selected ?? false ? 'selected' : ''}`;
 
   const points: React.JSX.Element[] = [];
@@ -22,7 +21,11 @@ export function SelectableCardComponent(
   }
 
   return (
-    <div className={className} onClick={() => props.selectCard(props.card)}>
+    <div
+      className={className}
+      onDoubleClick={() => props.playCard(props.card)}
+      onClick={() => props.selectCard(props.card)}
+    >
       {props.card.number}
       <div className={'points'}>{points}</div>
     </div>

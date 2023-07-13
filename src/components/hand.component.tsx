@@ -7,6 +7,7 @@ export type SelectableCard = Card & { selected: boolean };
 export function HandComponent(props: {
   cards: SelectableCard[];
   selectCard: any;
+  playCard: any;
 }): React.JSX.Element {
   const [cards, setCards] = useState([...props.cards]);
 
@@ -28,6 +29,7 @@ export function HandComponent(props: {
         <SelectableCardComponent
           key={c.number}
           card={c}
+          playCard={props.playCard}
           selectCard={selectCard}
         />
       ))}

@@ -33,6 +33,9 @@ export class Player {
   }
 
   public receiveCard(card: Card): void {
+    if (this._hand.length === 10) {
+      throw new Error('Player cannot hold more than 10 cards');
+    }
     this._hand.push(card);
   }
 
@@ -63,8 +66,6 @@ export class Player {
   }
 
   public get points(): number {
-    return this._wonCards
-      .map((c) => c.points)
-      .reduce((prev, current) => prev + current, 0);
+    return this._wonCards.map((c) => c.points).reduce((prev, current) => prev + current, 0);
   }
 }
