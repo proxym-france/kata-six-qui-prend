@@ -47,6 +47,7 @@ function App (props: { game: Game }): React.JSX.Element {
   console.log('RENDER')
   return (
     <div className="app">
+      <div>Game seed: {props.game.seed}</div>
       {<BoardComponent rows={state.rows} /> }
       {<br/>}
       <HandComponent key={state.currentPlayer?.name} selectCard={selectCard} cards={state.hand}></HandComponent>
