@@ -26,6 +26,11 @@ describe('Row', () => {
     col.addCard(card);
     expect(() => col.addCard(card)).toThrow()
   })
+
+  it('Cannot have 0 cards left', () => {
+    const row = new Row();
+    expect(() => row.pickUp()).toThrow();
+  })
 })
 
 const initRows = (): Row => {

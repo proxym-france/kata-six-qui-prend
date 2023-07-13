@@ -15,11 +15,7 @@ export class Board {
     return this._rows.map((col) => col.cards).flatMap(cards => cards);
   }
 
-  public addCard(card: Card | undefined): Card[] | undefined {
-    if (card == null) {
-      throw new Error('Unable to add an undefined card to the board');
-    }
-
+  public addCard(card: Card): Card[] | undefined {
     let cardPlaced = false;
     let previousDiff = 105;
     let rowToPlace = 0;

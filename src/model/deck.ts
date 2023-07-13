@@ -15,13 +15,9 @@ export class Deck {
     return this._cards;
   }
 
-  public shuffle(seed?: string): void {
-    if (seed != null) {
-      const rng = seedrandom(seed);
-      this._cards = this._cards.sort((a, b) => 0.5 - rng());
-    } else {
-      this._cards = this._cards.sort((a, b) => 0.5 - Math.random());
-    }
+  public shuffle(seed: string): void {
+    const rng = seedrandom(seed);
+    this._cards = this._cards.sort((a, b) => 0.5 - rng());
 
     this._shuffled = true;
   }

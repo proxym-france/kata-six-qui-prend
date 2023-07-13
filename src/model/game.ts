@@ -14,18 +14,17 @@ export class Game {
   private _ended = false;
   private _trick: CardAndPlayer[] = [];
   private _manche: number = 1;
+  private readonly _seed: string;
 
-  constructor(private readonly _seed?: string) {
+  constructor(_seed?: string) {
     this._isStarted = false;
     this._deck = new Deck();
     this._board = new Board();
     this._currentPlayer = 0;
-    if (_seed == null) {
-      this._seed = Math.random().toString();
-    }
+    this._seed = (_seed != null) ? _seed : Math.random().toString();
   }
 
-  public get seed(): string | undefined {
+  public get seed(): string {
     return this._seed
   }
 
@@ -110,13 +109,17 @@ export class Game {
       throw new Error('Need at least two players');
     }
 
+    // TODO this seed should change for each "manche"
     this._deck.shuffle(this.seed);
 
     if (!this._isStarted) {
-      this._board.addCard(this._deck.drawCard());
-      this._board.addCard(this._deck.drawCard());
-      this._board.addCard(this._deck.drawCard());
-      this._board.addCard(this._deck.drawCard());
+      for (let i = 0; i < 4; i++) {
+        const drawCard = this._deck.drawCard()
+        if (drawCard == null) {
+          throw new Error('No cards in beginning of game');
+        }
+        this._board.addCard(drawCard);
+      }
 
       this._isStarted = true;
       this._manche++;
