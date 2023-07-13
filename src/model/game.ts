@@ -15,11 +15,18 @@ export class Game {
   private _trick: CardAndPlayer[] = [];
   private _manche: number = 1;
 
-  constructor(private readonly seed?: string) {
+  constructor(private readonly _seed?: string) {
     this._isStarted = false;
     this._deck = new Deck();
     this._board = new Board();
     this._currentPlayer = 0;
+    if (_seed == null) {
+      this._seed = Math.random().toString();
+    }
+  }
+
+  public get seed(): string | undefined {
+    return this._seed
   }
 
   public get deck(): Deck {
