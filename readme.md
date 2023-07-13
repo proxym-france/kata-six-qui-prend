@@ -3,6 +3,7 @@
 Exercise: Write a test driven implementation of the game rules for the 6 Takes board game.
 
 Requirements:
+
 - Always start with the tests
 - Implement a domain model without any external dependencies
 - Use modern testing frameworks
@@ -15,7 +16,7 @@ Notes:
 - If your language is not typescript - use the appropriate subfolder (ex: java)
 
 - Original Game rules:
-https://www.ultraboardgames.com/6-nimmt/game-rules.php
+  https://www.ultraboardgames.com/6-nimmt/game-rules.php
 
 # Français
 
@@ -35,4 +36,4 @@ Notes :
 - Si votre langage n'est pas TypeScript, utilisez le sous-dossier approprié (par exemple, java)
 
 - Règles originales du jeu :
-https://www.regledujeu.fr/6-qui-prend/
+  https://www.regledujeu.fr/6-qui-prend/

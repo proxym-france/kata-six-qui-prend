@@ -2,7 +2,9 @@ import { Game } from '../src/model/game';
 import { Player } from '../src/model/player';
 import { Card } from '../src/model/card';
 
-const initGame = (seed?: string): { game: Game; player1: Player; player2: Player } => {
+const initGame = (
+  seed?: string
+): { game: Game; player1: Player; player2: Player } => {
   const game = new Game(seed);
   const player1 = new Player('p1');
   const player2 = new Player('p2');
@@ -10,7 +12,7 @@ const initGame = (seed?: string): { game: Game; player1: Player; player2: Player
   game.addPlayer(player1);
   game.addPlayer(player2);
   return { game, player1, player2 };
-}
+};
 
 describe('Game', () => {
   it('Has players', () => {
@@ -19,7 +21,7 @@ describe('Game', () => {
     game.addPlayer(new Player('p1'));
 
     expect(game.players).toHaveLength(1);
-  })
+  });
 
   it('Cannot be started with only one player', () => {
     const game = new Game();
@@ -51,7 +53,7 @@ describe('Game', () => {
     expect(game.players[0].hand).toHaveLength(10);
     expect(game.players[1].hand).toHaveLength(10);
     expect(game.deck.cards).toHaveLength(80);
-  })
+  });
 
   it('First player plays first', () => {
     const { game } = initGame();
@@ -59,7 +61,7 @@ describe('Game', () => {
     game.start();
 
     expect(game.currentPlayer?.name).toBe('p1');
-  })
+  });
 
   it('Alternates player turns after they play', () => {
     const { game, player1 } = initGame();
@@ -69,7 +71,7 @@ describe('Game', () => {
     player1.playCard(player1.highestCard?.number);
 
     expect(game.currentPlayer?.name).toBe('p2');
-  })
+  });
 
   it('Goes back to the first player when all players have played', () => {
     const { game, player1, player2 } = initGame();
@@ -80,7 +82,7 @@ describe('Game', () => {
     player2.playCard(player2.highestCard?.number);
 
     expect(game.currentPlayer?.name).toBe('p1');
-  })
+  });
 
   it('Initializes the board with 4 cards', () => {
     const { game } = initGame();
@@ -88,8 +90,8 @@ describe('Game', () => {
     game.start();
 
     expect(game.board.cards).toHaveLength(4);
-    expect(game.deck.cards).toHaveLength(80)
-  })
+    expect(game.deck.cards).toHaveLength(80);
+  });
 
   it('Puts all cards on the board when all players have played', () => {
     const { game, player1, player2 } = initGame('123');
@@ -100,7 +102,7 @@ describe('Game', () => {
     player2.playCard(player2.hand[0].number);
 
     expect(game.board.cards).toHaveLength(6);
-  })
+  });
 
   it('Does not allow the same player to play twice', () => {
     const { game, player1 } = initGame();
@@ -110,17 +112,17 @@ describe('Game', () => {
     player1.playCard(player1.highestCard?.number);
 
     expect(() => player1.playCard(player1.hand[0].number)).toThrow();
-  })
+  });
 
-  it('Increases player\'s points when they pick up a row', () => {
+  it("Increases player's points when they pick up a row", () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { game, player1, player2 } = initGame('123');
 
     const player3 = new Player('p3');
     const player4 = new Player('p4');
 
-    game.addPlayer(player3)
-    game.addPlayer(player4)
+    game.addPlayer(player3);
+    game.addPlayer(player4);
 
     game.start();
 
@@ -132,7 +134,7 @@ describe('Game', () => {
     } while (player1.wonCards.length === 0);
 
     expect(player3.wonCards).toHaveLength(5);
-  })
+  });
 
   it('Forces a player to play a higher card unless they do not have any', () => {
     const { game, player1 } = initGame('123');
@@ -140,27 +142,27 @@ describe('Game', () => {
     game.start();
 
     // eslint-disable-next-line @typescript-eslint/dot-notation
-    player1['_hand'] = [new Card(1), new Card(3)]
+    player1['_hand'] = [new Card(1), new Card(3)];
 
     expect(() => player1.playCard(player1.hand[0].number)).toThrow();
-  })
+  });
 
   it('Starts at first manche', () => {
     const { game } = initGame('123');
     expect(game.manche).toBe(1);
-  })
+  });
 
-  it('Starts a new \'manche\' when all cards are played', () => {
+  it("Starts a new 'manche' when all cards are played", () => {
     const { game, player1, player2 } = initGame('123');
     game.start();
 
     do {
       player1.playCard(player1.highestCard?.number);
       player2.playCard(player2.highestCard?.number);
-    } while (player1.hand.length === 0)
+    } while (player1.hand.length === 0);
 
     expect(game.manche).toBe(2);
-  })
+  });
 
   it('Ends when a player has 66 points', () => {
     const { game, player1, player2 } = initGame('123');
@@ -172,7 +174,7 @@ describe('Game', () => {
     } while (player1.points < 66);
 
     expect(game.ended).toBe(true);
-  })
+  });
 
   it('Cards are not placed in rows before all players played', () => {
     const { game, player1 } = initGame('123');
@@ -182,5 +184,5 @@ describe('Game', () => {
     player1.playCard(player1.hand[0].number);
     expect(game.board.cards).toHaveLength(4);
     expect(game.trick).toHaveLength(1);
-  })
-})
+  });
+});

@@ -7,7 +7,7 @@ describe('Row', () => {
 
     const result = col.addCard(new Card(6));
     expect(result?.length).toBe(5);
-  })
+  });
 
   it('After a row is picked up the last card becomes the first', () => {
     const col = initRows();
@@ -17,21 +17,21 @@ describe('Row', () => {
 
     expect(col.length).toBe(1);
     expect(col.lastCard).toBe(card);
-  })
+  });
 
   it('Cannot have two times the same card', () => {
     const col = initRows();
 
     const card = new Card(55);
     col.addCard(card);
-    expect(() => col.addCard(card)).toThrow()
-  })
+    expect(() => col.addCard(card)).toThrow();
+  });
 
   it('Cannot have 0 cards left', () => {
     const row = new Row();
     expect(() => row.pickUp()).toThrow();
-  })
-})
+  });
+});
 
 const initRows = (): Row => {
   const col = new Row();
@@ -42,4 +42,4 @@ const initRows = (): Row => {
   col.addCard(new Card(4));
   col.addCard(new Card(5));
   return col;
-}
+};

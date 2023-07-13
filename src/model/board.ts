@@ -12,7 +12,7 @@ export class Board {
   private readonly _rows: Row[] = [new Row(), new Row(), new Row(), new Row()];
 
   public get cards(): Card[] {
-    return this._rows.map((col) => col.cards).flatMap(cards => cards);
+    return this._rows.map((col) => col.cards).flatMap((cards) => cards);
   }
 
   public addCard(card: Card): Card[] | undefined {
@@ -41,7 +41,7 @@ export class Board {
         }
 
         if (card.number - lastCardInRow.number < previousDiff) {
-          previousDiff = card.number - lastCardInRow.number
+          previousDiff = card.number - lastCardInRow.number;
           rowToPlace = this._rows.indexOf(col);
         }
       }
@@ -75,7 +75,7 @@ export class Board {
       if (col.lastCard == null) {
         return false;
       }
-      isSmaller = isSmaller && card.number < col.lastCard?.number
+      isSmaller = isSmaller && card.number < col.lastCard?.number;
     }
 
     return isSmaller;

@@ -3,7 +3,10 @@ import { Deck } from './deck';
 import { type Card } from './card';
 import { Board } from './board';
 
-interface CardAndPlayer { card: Card; player: Player }
+interface CardAndPlayer {
+  card: Card;
+  player: Player;
+}
 
 export class Game {
   private readonly _players: Player[] = [];
@@ -21,11 +24,11 @@ export class Game {
     this._deck = new Deck();
     this._board = new Board();
     this._currentPlayer = 0;
-    this._seed = (_seed != null) ? _seed : Math.random().toString();
+    this._seed = _seed != null ? _seed : Math.random().toString();
   }
 
   public get seed(): string {
-    return this._seed
+    return this._seed;
   }
 
   public get deck(): Deck {
@@ -52,7 +55,10 @@ export class Game {
     if (player !== this.currentPlayer) {
       throw new Error('Not current player');
     }
-    if (this.board.cardIsSmallerThanAll(card) && (player.hand.find(c => c.number > card.number) != null)) {
+    if (
+      this.board.cardIsSmallerThanAll(card) &&
+      player.hand.find((c) => c.number > card.number) != null
+    ) {
       throw new Error('You need to play a higher card if you have one');
     }
     if (player.hand.length === 0) {
@@ -114,7 +120,7 @@ export class Game {
 
     if (!this._isStarted) {
       for (let i = 0; i < 4; i++) {
-        const drawCard = this._deck.drawCard()
+        const drawCard = this._deck.drawCard();
         if (drawCard == null) {
           throw new Error('No cards in beginning of game');
         }

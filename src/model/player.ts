@@ -37,7 +37,7 @@ export class Player {
   }
 
   playCard(number: number | undefined): void {
-    const card = this.hand.find(c => c.number === number);
+    const card = this.hand.find((c) => c.number === number);
     if (card == null) {
       throw new Error('Invalid card to play');
     }
@@ -63,6 +63,8 @@ export class Player {
   }
 
   public get points(): number {
-    return this._wonCards.map(c => c.points).reduce((prev, current) => prev + current, 0);
+    return this._wonCards
+      .map((c) => c.points)
+      .reduce((prev, current) => prev + current, 0);
   }
 }

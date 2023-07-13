@@ -1,7 +1,7 @@
 import { type Card } from './card';
 
 export class Row {
-  private _cards: Card[] = []
+  private _cards: Card[] = [];
 
   public get lastCard(): Card | undefined {
     if (this.length === 0) {
@@ -16,7 +16,7 @@ export class Row {
   }
 
   public addCard(card: Card): Card[] | undefined {
-    if (this.cards.find(c => c.number === card.number) != null) {
+    if (this.cards.find((c) => c.number === card.number) != null) {
       throw new Error('Duplicate cards not allowed');
     }
 
@@ -34,7 +34,7 @@ export class Row {
     if (this.lastCard == null) {
       throw new Error('There is no card left after picking up');
     }
-    this._cards = [this.lastCard]
+    this._cards = [this.lastCard];
 
     return slicedCards;
   }
@@ -44,6 +44,8 @@ export class Row {
   }
 
   public get points(): number {
-    return this._cards.map(c => c.points).reduce((prev, current) => prev + current);
+    return this._cards
+      .map((c) => c.points)
+      .reduce((prev, current) => prev + current);
   }
 }

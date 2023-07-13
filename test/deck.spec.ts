@@ -5,7 +5,7 @@ describe('Deck', () => {
   it('Has 104 cards', () => {
     const deck = new Deck();
     expect(deck.cards).toHaveLength(104);
-  })
+  });
 
   it('Can draw the top card', () => {
     const deck = new Deck();
@@ -13,14 +13,14 @@ describe('Deck', () => {
 
     expect(card).not.toBeUndefined();
     expect(card?.number).toBe(1);
-  })
+  });
 
   it('Is reduced by one when drawing a card', () => {
     const deck = new Deck();
     deck.drawCard();
 
     expect(deck.cards).toHaveLength(103);
-  })
+  });
 
   it('Can be shuffled', () => {
     const deck = new Deck();
