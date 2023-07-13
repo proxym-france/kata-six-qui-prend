@@ -12,11 +12,21 @@ code {
     monospace;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .card {
   border: 1px solid black;
+  background-color: white;
   min-height: 3rem;
   min-width: 2rem;
   max-width: 3rem;
+  padding: 2px;
+  margin: 2px;
 }
 
 .hand {
@@ -30,5 +40,16 @@ code {
 
 .row {
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  min-width: 23rem;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  background-image: url("https://w7.pngwing.com/pngs/69/861/png-transparent-wood-material-red-old-wood-background-brown-wooden-planks-texture-brown-wood-thumbnail.png");
+}
+
+.point {
+  color: red;
 }

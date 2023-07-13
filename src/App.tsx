@@ -5,7 +5,7 @@ import { type Game } from './model/game'
 import { type Card } from './model/card'
 import { type Player } from './model/player'
 import { type Row } from './model/row'
-import { RowComponent } from './components/row.component'
+import { BoardComponent } from './components/board.component'
 
 interface AppState {
   rows: Row[];
@@ -46,11 +46,8 @@ function App (props: { game: Game }): React.JSX.Element {
 
   console.log('RENDER')
   return (
-    <div className="App">
-      {<RowComponent cards={state.rows[0].cards}></RowComponent>}
-      {<RowComponent cards={state.rows[1].cards}></RowComponent>}
-      {<RowComponent cards={state.rows[2].cards}></RowComponent>}
-      {<RowComponent cards={state.rows[3].cards}></RowComponent>}
+    <div className="app">
+      {<BoardComponent rows={state.rows} /> }
       {<br/>}
       <HandComponent key={state.currentPlayer?.name} selectCard={selectCard} cards={state.hand}></HandComponent>
       <br/>
