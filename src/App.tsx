@@ -1,57 +1,77 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './App.css'
-import { Game } from './model/game'
-import { Player } from './model/player'
+import { HandComponent, type SelectableCard } from './components/hand.component'
+import { type Game } from './model/game'
+import { type Card } from './model/card'
+import { type Player } from './model/player'
 import { type Row } from './model/row'
+import { RowComponent } from './components/row.component'
 
-const game = new Game()
-game.addPlayer(new Player('p1'))
-game.addPlayer(new Player('p2'))
+interface AppState {
+  rows: Row[];
+  currentPlayer: Player | undefined;
+  hand: SelectableCard[];
+}
 
-game.start()
-
-function App (): React.JSX.Element {
-  const [rows, setRows] = useState(new Array<Row>())
-
-  useEffect(() => {
-    setRows(game.board.getRows())
-  }, [])
-
-  function playCard (): void {
-    const currentPlayer = game.currentPlayer
-    currentPlayer?.playCard(currentPlayer?.highestCard?.number)
-    setRows([...game.board.getRows()])
+function App (props: { game: Game }): React.JSX.Element {
+  const [state, setState] = useState<AppState>({
+    rows: props.game.board.getRows(),
+    currentPlayer: props.game.currentPlayer,
+    hand: mapCards(props.game.currentPlayer?.hand)
+  })
+  const initialPlayer = props.game.currentPlayer
+  if (initialPlayer == null) {
+    return (
+      <div>Game initializing</div>
+    );
   }
 
-  const first = rows[0]?.cards.map(c => (<span key={c.number}>{c.number} </span>))
-  const second = rows[1]?.cards.map(c => (<span key={c.number}>{c.number} </span>))
-  const third = rows[2]?.cards.map(c => (<span key={c.number}>{c.number} </span>))
-  const fourth = rows[3]?.cards.map(c => (<span key={c.number}>{c.number} </span>))
+  let selectedCard: SelectableCard;
 
+  function playCard (): void {
+    props.game.currentPlayer?.playCard(selectedCard.number)
+
+    if (props.game.currentPlayer != null) {
+      const handCards = mapCards(props.game.currentPlayer?.hand)
+      console.log('Hand cards', handCards)
+      if (handCards != null) {
+        setState({ ...state, hand: handCards, rows: props.game.board.getRows() })
+      }
+    }
+  }
+
+  const selectCard = (card: SelectableCard): void => {
+    selectedCard = card;
+  }
+
+  console.log('RENDER')
   return (
     <div className="App">
-      {first}
+      {<RowComponent cards={state.rows[0].cards}></RowComponent>}
+      {<RowComponent cards={state.rows[1].cards}></RowComponent>}
+      {<RowComponent cards={state.rows[2].cards}></RowComponent>}
+      {<RowComponent cards={state.rows[3].cards}></RowComponent>}
       {<br/>}
-      {second}
-      {<br/>}
-      {third}
-      {<br/>}
-      {fourth}
-      {<br/>}
-      {<br/>}
-      {game.currentPlayer?.hand.map(c => (<span key={c.number}>{c.number} </span>))}
+      <HandComponent key={state.currentPlayer?.name} selectCard={selectCard} cards={state.hand}></HandComponent>
       <br/>
       <div>
         <div>current player</div>
-        {game.currentPlayer?.name}
+        {props.game.currentPlayer?.name}
         <div>points</div>
-        {game.currentPlayer?.points}
+        {props.game.currentPlayer?.points}
         <div>highest card</div>
-        {game.currentPlayer?.highestCard?.number}
+        {props.game.currentPlayer?.highestCard?.number}
       </div>
       <button onClick={playCard}>play card</button>
     </div>
   )
+}
+
+const mapCards = (cards: Card[] | undefined): SelectableCard[] => {
+  if (cards == null) {
+    return []
+  }
+  return cards.map(c => Object.assign(c, { selected: false }))
 }
 
 export default App
