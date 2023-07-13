@@ -14,8 +14,7 @@ code {
 
 .app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
 }
 
@@ -65,4 +64,16 @@ code {
 .point {
   margin: 0 1px 0 1px;
   color: red;
+}
+
+.players {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.current {
+  background-color: #61dafb;
 }

@@ -9,6 +9,7 @@ import { type Card } from './model/card';
 import { type Player } from './model/player';
 import { type Row } from './model/row';
 import { BoardComponent } from './components/board.component';
+import { PlayersComponent } from './components/players.component';
 
 interface AppState {
   rows: Row[];
@@ -37,7 +38,7 @@ function App(props: { game: Game }): React.JSX.Element {
       console.log('Hand cards', handCards);
       if (handCards != null) {
         setState({
-          ...state,
+          currentPlayer: props.game.currentPlayer,
           hand: handCards,
           rows: props.game.board.getRows()
         });
@@ -51,24 +52,33 @@ function App(props: { game: Game }): React.JSX.Element {
 
   return (
     <div className="app">
-      <div>Game seed: {props.game.seed}</div>
-      {<BoardComponent rows={state.rows} />}
-      {<br />}
-      <HandComponent
-        key={state.currentPlayer?.name}
-        selectCard={selectCard}
-        cards={state.hand}
-      ></HandComponent>
-      <br />
-      <div>
-        <div>current player</div>
-        {props.game.currentPlayer?.name}
-        <div>points</div>
-        {props.game.currentPlayer?.points}
-        <div>highest card</div>
-        {props.game.currentPlayer?.highestCard?.number}
+      <div className={'main-content'}>
+        <h2>Six Takes Game</h2>
+        <div>Game seed: {props.game.seed}</div>
+        {<BoardComponent rows={state.rows} />}
+        {<br />}
+        <HandComponent
+          key={state.currentPlayer?.name}
+          selectCard={selectCard}
+          cards={state.hand}
+        ></HandComponent>
+        <br />
+        <div>
+          <div>current player</div>
+          {props.game.currentPlayer?.name}
+          <div>points</div>
+          {props.game.currentPlayer?.points}
+          <div>highest card</div>
+          {props.game.currentPlayer?.highestCard?.number}
+        </div>
+        <button onClick={playCard}>play card</button>
       </div>
-      <button onClick={playCard}>play card</button>
+      <div className={'side-content'}>
+        <PlayersComponent
+          players={props.game.players}
+          currentPlayer={state.currentPlayer?.name}
+        />
+      </div>
     </div>
   );
 }
