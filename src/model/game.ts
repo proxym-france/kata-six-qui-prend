@@ -3,7 +3,7 @@ import { Deck } from './deck';
 import { type Card } from './card';
 import { Board } from './board';
 
-interface CardAndPlayer {
+export interface CardAndPlayer {
   card: Card;
   player: Player;
 }

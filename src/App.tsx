@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { HandComponent, type SelectableCard } from './components/hand.component';
-import { type Game } from './model/game';
+import type { CardAndPlayer, Game } from './model/game';
 import { type Card } from './model/card';
 import { type Player } from './model/player';
 import { type Row } from './model/row';
@@ -12,12 +12,14 @@ interface AppState {
   rows: Row[];
   currentPlayer: Player | undefined;
   hand: SelectableCard[];
+  trick: CardAndPlayer[];
 }
 
 function App(props: { game: Game }): React.JSX.Element {
   const [state, setState] = useState<AppState>({
     rows: props.game.board.getRows(),
     currentPlayer: props.game.currentPlayer,
+    trick: props.game.trick,
     hand: mapCards(props.game.currentPlayer?.hand)
   });
   const initialPlayer = props.game.currentPlayer;
@@ -28,7 +30,21 @@ function App(props: { game: Game }): React.JSX.Element {
   let selectedCard: SelectableCard;
 
   function playCard(): void {
-    props.game.currentPlayer?.playCard(selectedCard.number);
+    if (state.currentPlayer != null) {
+      setState({
+        ...state,
+        trick: [...state.trick, { card: selectedCard, player: state.currentPlayer }]
+      });
+    }
+  }
+
+  const done = (): void => {
+    const currentPlayerCard = state.trick.find(
+      (c) => c.player.name === props.game.currentPlayer?.name
+    );
+    if (currentPlayerCard != null) {
+      props.game.currentPlayer?.playCard(currentPlayerCard.card.number);
+    }
 
     if (props.game.currentPlayer != null) {
       const handCards = mapCards(props.game.currentPlayer?.hand);
@@ -37,11 +53,12 @@ function App(props: { game: Game }): React.JSX.Element {
         setState({
           currentPlayer: props.game.currentPlayer,
           hand: handCards,
+          trick: props.game.trick,
           rows: props.game.board.getRows()
         });
       }
     }
-  }
+  };
 
   const selectCard = (card: SelectableCard): void => {
     selectedCard = card;
@@ -52,7 +69,7 @@ function App(props: { game: Game }): React.JSX.Element {
       <div className={'main-content'}>
         <h2>Six Takes Game</h2>
         <div>Game seed: {props.game.seed}</div>
-        {<BoardComponent rows={state.rows} />}
+        {<BoardComponent rows={state.rows} trick={state.trick} />}
         {<br />}
         <HandComponent
           key={state.currentPlayer?.name}
@@ -65,6 +82,7 @@ function App(props: { game: Game }): React.JSX.Element {
       <div className={'side-content'}>
         <PlayersComponent players={props.game.players} currentPlayer={state.currentPlayer?.name} />
       </div>
+      <button onClick={done}>Done</button>
     </div>
   );
 }
