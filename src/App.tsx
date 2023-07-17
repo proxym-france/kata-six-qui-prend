@@ -7,12 +7,14 @@ import { type Player } from './model/player';
 import { type Row } from './model/row';
 import { BoardComponent } from './components/board.component';
 import { PlayersComponent } from './components/players.component';
+import { ConfigComponent } from './components/config.component';
 
 interface AppState {
   rows: Row[];
   currentPlayer: Player | undefined;
   hand: SelectableCard[];
   trick: CardAndPlayer[];
+  isStarted: boolean;
 }
 
 function App(props: { game: Game }): React.JSX.Element {
@@ -20,12 +22,9 @@ function App(props: { game: Game }): React.JSX.Element {
     rows: props.game.board.getRows(),
     currentPlayer: props.game.currentPlayer,
     trick: props.game.trick,
-    hand: mapCards(props.game.currentPlayer?.hand)
+    hand: mapCards(props.game.currentPlayer?.hand),
+    isStarted: false
   });
-  const initialPlayer = props.game.currentPlayer;
-  if (initialPlayer == null) {
-    return <div>Game initializing</div>;
-  }
 
   let selectedCard: SelectableCard;
 
@@ -38,14 +37,7 @@ function App(props: { game: Game }): React.JSX.Element {
     }
   }
 
-  const done = (): void => {
-    const currentPlayerCard = state.trick.find(
-      (c) => c.player.name === props.game.currentPlayer?.name
-    );
-    if (currentPlayerCard != null) {
-      props.game.currentPlayer?.playCard(currentPlayerCard.card.number);
-    }
-
+  function initState(): void {
     if (props.game.currentPlayer != null) {
       const handCards = mapCards(props.game.currentPlayer?.hand);
       console.log('Hand cards', handCards);
@@ -54,19 +46,40 @@ function App(props: { game: Game }): React.JSX.Element {
           currentPlayer: props.game.currentPlayer,
           hand: handCards,
           trick: props.game.trick,
-          rows: props.game.board.getRows()
+          rows: props.game.board.getRows(),
+          isStarted: props.game.isStarted
         });
       }
     }
+  }
+
+  const done = (): void => {
+    const currentPlayerCard = state.trick.find(
+      (c) => c.player.name === props.game.currentPlayer?.name
+    );
+    if (currentPlayerCard != null) {
+      props.game.currentPlayer?.playCard(currentPlayerCard.card.number);
+    }
+    initState();
+  };
+
+  const onStartGame = (): void => {
+    initState();
   };
 
   const selectCard = (card: SelectableCard): void => {
     selectedCard = card;
   };
 
-  return (
-    <div className="app">
-      <div className={'main-content'}>
+  const onAddPlayer = (): void => {
+    initState();
+  };
+
+  let mainContent: React.JSX.Element;
+
+  if (state.isStarted) {
+    mainContent = (
+      <>
         <h2>Six Takes Game</h2>
         <div>Game seed: {props.game.seed}</div>
         {<BoardComponent rows={state.rows} trick={state.trick} />}
@@ -78,11 +91,21 @@ function App(props: { game: Game }): React.JSX.Element {
           cards={state.hand}
         ></HandComponent>
         <br />
-      </div>
+        <button onClick={done}>Done</button>
+      </>
+    );
+  } else {
+    mainContent = (
+      <ConfigComponent game={props.game} onStartGame={onStartGame} onAddPlayer={onAddPlayer} />
+    );
+  }
+
+  return (
+    <div className="app">
+      <div className={'main-content'}>{mainContent}</div>
       <div className={'side-content'}>
         <PlayersComponent players={props.game.players} currentPlayer={state.currentPlayer?.name} />
       </div>
-      <button onClick={done}>Done</button>
     </div>
   );
 }
