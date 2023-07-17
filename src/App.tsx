@@ -30,6 +30,19 @@ function App(props: { game: Game }): React.JSX.Element {
 
   function playCard(): void {
     if (state.currentPlayer != null) {
+      for (let i = 0; i < state.trick.length; i++) {
+        const cardAndPlayer = state.trick[i];
+
+        if (cardAndPlayer.player.name === state.currentPlayer.name) {
+          cardAndPlayer.card = selectedCard;
+          setState({
+            ...state,
+            trick: [...state.trick]
+          });
+          return;
+        }
+      }
+
       setState({
         ...state,
         trick: [...state.trick, { card: selectedCard, player: state.currentPlayer }]
