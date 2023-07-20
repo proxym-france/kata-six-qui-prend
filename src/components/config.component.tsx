@@ -23,9 +23,13 @@ export const ConfigComponent = (props: {
 
   return (
     <div hidden={props.game.isStarted} className={'config'}>
-      Config
-      <button onClick={addPlayer}>Add Player</button>
-      <button onClick={startGame}>Start Game</button>
+      <h2>Config</h2>
+      <button id={'add-player'} onClick={addPlayer}>
+        Add Player
+      </button>
+      <button id={'start-game'} onClick={startGame}>
+        Start Game
+      </button>
     </div>
   );
 };

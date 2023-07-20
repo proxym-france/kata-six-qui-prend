@@ -88,4 +88,17 @@ export class Board {
   public getRow(number: BoardRow): Row {
     return this._rows[number];
   }
+
+  public print(): string {
+    let str = '';
+    for (let i = 0; i < this._rows.length; i++) {
+      const row = this._rows[i];
+      str += `R${i} `;
+      for (const card of row.cards) {
+        str += `[ ${card.number} ]`;
+      }
+      str += '\n';
+    }
+    return str;
+  }
 }

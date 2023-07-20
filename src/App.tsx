@@ -71,7 +71,13 @@ function App(props: { game: Game }): React.JSX.Element {
       (c) => c.player.name === props.game.currentPlayer?.name
     );
     if (currentPlayerCard != null) {
-      props.game.currentPlayer?.playCard(currentPlayerCard.card.number);
+      try {
+        props.game.currentPlayer?.playCard(currentPlayerCard.card.number);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(`error ${error.message}`);
+        }
+      }
     }
     initState();
   };

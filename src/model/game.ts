@@ -17,17 +17,17 @@ export class Game {
   private _ended = false;
   private _trick: CardAndPlayer[] = [];
   private _manche: number = 1;
-  private readonly _seed: string;
+  private readonly _seed: number;
 
-  constructor(_seed?: string) {
+  constructor(_seed?: number) {
     this._isStarted = false;
     this._deck = new Deck();
     this._board = new Board();
     this._currentPlayer = 0;
-    this._seed = _seed != null ? _seed : Math.random().toString();
+    this._seed = _seed != null ? _seed : Math.random();
   }
 
-  public get seed(): string {
+  public get seed(): number {
     return this._seed;
   }
 
@@ -61,14 +61,9 @@ export class Game {
     if (this.board.cardIsSmallerThanAll(playedCard) && hasABiggerCard != null) {
       throw new Error('You need to play a higher card if you have one');
     }
-    if (player.hand.length === 0) {
-      this.start();
-    }
-
     this._currentPlayer++;
 
     this._trick.push({ card: playedCard, player });
-    console.log('Player played', player);
 
     // Tour completed
     if (this._currentPlayer >= this.players.length) {
@@ -77,10 +72,16 @@ export class Game {
         this.playCardsPriv(cardAndPlayer.card, cardAndPlayer.player);
       }
       this._trick = [];
+
+      if (player.hand.length === 0) {
+        this.start();
+      }
     }
   };
 
   private playCardsPriv(card: Card, player: Player): void {
+    console.log('Board:\n', this.board.print());
+
     const result = this.board.addCard(card);
 
     if (result != null) {
@@ -92,10 +93,13 @@ export class Game {
     }
   }
 
-  public addPlayer(player: Player): void {
-    this._players.push(player);
+  public addPlayer(newPlayer: Player): void {
+    if (this._players.find((p) => p.name === newPlayer.name) != null) {
+      throw new Error(`Player ${newPlayer.name} already exists`);
+    }
+    this._players.push(newPlayer);
 
-    player.onPlayCard = this.onPlayCard;
+    newPlayer.onPlayCard = this.onPlayCard;
   }
 
   public get isStarted(): boolean {
@@ -115,6 +119,13 @@ export class Game {
       throw new Error('Need at least two players');
     }
 
+    const returnedCards = this._players
+      .map((p) => p.returnCards())
+      .reduce((prev, currentValue) => {
+        prev.push(...currentValue);
+        return prev;
+      });
+    this._deck.cards.push(...returnedCards);
     // TODO this seed should change for each "manche"
     this._deck.shuffle(this.seed);
 

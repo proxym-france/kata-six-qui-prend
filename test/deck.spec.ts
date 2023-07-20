@@ -24,12 +24,27 @@ describe('Deck', () => {
 
   it('Can be shuffled', () => {
     const deck = new Deck();
-    deck.shuffle('seeded');
+    deck.shuffle(999);
 
     const card1: Card | undefined = deck.drawCard();
     const card2: Card | undefined = deck.drawCard();
 
-    expect(card1?.number).toBe(34);
-    expect(card2?.number).toBe(82);
+    expect(card1?.number).toBe(44);
+    expect(card2?.number).toBe(48);
+  });
+
+  it('Does not get shuffled if seed is -1', () => {
+    const deck = new Deck();
+    deck.shuffle(-1);
+
+    const card1: Card | undefined = deck.drawCard();
+    const card2: Card | undefined = deck.drawCard();
+    const card3: Card | undefined = deck.drawCard();
+    const card4: Card | undefined = deck.drawCard();
+
+    expect(card1?.number).toBe(1);
+    expect(card2?.number).toBe(2);
+    expect(card3?.number).toBe(3);
+    expect(card4?.number).toBe(4);
   });
 });

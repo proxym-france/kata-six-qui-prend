@@ -6,7 +6,8 @@ export class Player {
   private _hand: Card[] = [];
   private readonly _name: string;
   private _onPlayCard: OnPlayCardCallback | undefined;
-  private readonly _wonCards: Card[] = [];
+  private _points: number = 0;
+  private _wonCards: Card[] = [];
 
   constructor(name: string) {
     this._name = name;
@@ -17,6 +18,7 @@ export class Player {
   }
 
   public winPoints(cards: Card[]): void {
+    this._points += cards.map((c) => c.points).reduce((prev, current) => prev + current, 0);
     this.wonCards.push(...cards);
   }
 
@@ -49,9 +51,14 @@ export class Player {
       throw new Error('Player is not registered for game');
     }
 
-    this._hand.splice(this.hand.indexOf(card), 1);
-
-    this._onPlayCard(this, card);
+    try {
+      this._hand.splice(this.hand.indexOf(card), 1);
+      this._onPlayCard(this, card);
+    } catch (e) {
+      this._hand.push(card);
+      console.error('Errr .. todo', e);
+      throw e;
+    }
   }
 
   public get highestCard(): Card | undefined {
@@ -66,6 +73,12 @@ export class Player {
   }
 
   public get points(): number {
-    return this._wonCards.map((c) => c.points).reduce((prev, current) => prev + current, 0);
+    return this._points;
+  }
+
+  public returnCards(): Card[] {
+    const toReturn = this.wonCards;
+    this._wonCards = [];
+    return toReturn;
   }
 }

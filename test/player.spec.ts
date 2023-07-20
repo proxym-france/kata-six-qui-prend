@@ -35,7 +35,7 @@ describe('Player', () => {
 
   it('When playing a card it is removed from their hand', () => {
     const player1 = new Player('p1');
-    const player2 = new Player('p1');
+    const player2 = new Player('p2');
 
     const card1 = new Card(1);
     const card2 = new Card(2);
@@ -84,5 +84,17 @@ describe('Player', () => {
     ];
 
     expect(() => player.receiveCard(new Card(11))).toThrow();
+  });
+
+  it('Can return the cards they won', () => {
+    const player = new Player('p1');
+
+    player.winPoints([new Card(1), new Card(2)]);
+
+    const obj1 = expect.objectContaining({ number: 1 });
+    const obj2 = expect.objectContaining({ number: 2 });
+
+    expect(player.returnCards()).toEqual(expect.arrayContaining([obj1, obj2]));
+    expect(player.wonCards).toHaveLength(0);
   });
 });

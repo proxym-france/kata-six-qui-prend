@@ -2,14 +2,18 @@ import { Game } from '../src/model/game';
 import { Player } from '../src/model/player';
 import { Card } from '../src/model/card';
 
-const initGame = (seed?: string): { game: Game; player1: Player; player2: Player } => {
+const initGame = (seed?: number): { game: Game; player1: Player; player2: Player } => {
   const game = new Game(seed);
   const player1 = new Player('p1');
   const player2 = new Player('p2');
 
   game.addPlayer(player1);
   game.addPlayer(player2);
-  return { game, player1, player2 };
+  return {
+    game,
+    player1,
+    player2
+  };
 };
 
 describe('Game', () => {
@@ -92,7 +96,7 @@ describe('Game', () => {
   });
 
   it('Puts all cards on the board when all players have played', () => {
-    const { game, player1, player2 } = initGame('123');
+    const { game, player1, player2 } = initGame(123);
 
     game.start();
 
@@ -114,30 +118,31 @@ describe('Game', () => {
 
   it("Increases player's points when they pick up a row", () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { game, player1, player2 } = initGame('123');
+    const game = new Game(-1);
 
-    const player3 = new Player('p3');
-    const player4 = new Player('p4');
+    const player1 = new Player('p1');
+    const player2 = new Player('p2');
 
-    game.addPlayer(player3);
-    game.addPlayer(player4);
+    game.addPlayer(player1);
+    game.addPlayer(player2);
+
+    // p1 5 - 14
+    // p2 15 - 24
 
     game.start();
 
-    do {
+    for (let i = 0; i < 15; i++) {
       player1.playCard(player1.highestCard?.number);
       player2.playCard(player2.highestCard?.number);
-      player3.playCard(player3.highestCard?.number);
-      player4.playCard(player4.highestCard?.number);
-    } while (player1.wonCards.length === 0);
+    }
 
-    expect(player3.wonCards).toHaveLength(5);
+    expect(player1.wonCards).toHaveLength(4);
   });
 
   it.each([0, 2])(
     'Forces a player to play a higher card unless they do not have any',
     (cardNumber) => {
-      const { game, player1 } = initGame('123');
+      const { game, player1 } = initGame(123);
 
       game.start();
 
@@ -156,7 +161,7 @@ describe('Game', () => {
   it.each([0, 1, 2])(
     'Allows the player to play any lower card if they have no choice',
     (cardNumber) => {
-      const { game, player1 } = initGame('123');
+      const { game, player1 } = initGame(123);
 
       game.start();
 
@@ -173,24 +178,58 @@ describe('Game', () => {
   );
 
   it('Starts at first manche', () => {
-    const { game } = initGame('123');
+    const { game } = initGame(123);
     expect(game.manche).toBe(1);
   });
 
   it("Starts a new 'manche' when all cards are played", () => {
-    const { game, player1, player2 } = initGame('123');
+    const { game, player1, player2 } = initGame(-1);
     game.start();
 
-    do {
+    for (let i = 0; i < 10; i++) {
       player1.playCard(player1.highestCard?.number);
       player2.playCard(player2.highestCard?.number);
-    } while (player1.hand.length === 0);
+    }
 
     expect(game.manche).toBe(2);
+    expect(player1.hand).toHaveLength(10);
+    expect(player2.hand).toHaveLength(10);
+  });
+
+  it('Cannot add twice the same player', () => {
+    const { game } = initGame(123);
+
+    expect(() => game.addPlayer(new Player('p1'))).toThrow();
+  });
+
+  it('All players return their cards at the end of a manche', () => {
+    const { game, player1, player2 } = initGame(1234);
+
+    game.start();
+
+    for (let i = 0; i < 9; i++) {
+      player1.playCard(player1.highestCard?.number);
+      player2.playCard(player2.highestCard?.number);
+    }
+    expect(player1.wonCards).toHaveLength(2);
+    expect(player2.wonCards).toHaveLength(10);
+
+    // play last trick of first manche
+    player1.playCard(player1.highestCard?.number);
+    player2.playCard(player2.highestCard?.number);
+
+    // player will win another 2 cards in last tour
+
+    // then cards should not be in players anymore
+    expect(player1.wonCards).toHaveLength(0);
+    expect(player2.wonCards).toHaveLength(0);
+
+    // and they should be returned to the deck
+    expect(game.deck.cards).toHaveLength(94 - 20);
   });
 
   it('Ends when a player has 66 points', () => {
-    const { game, player1, player2 } = initGame('123');
+    const { game, player1, player2 } = initGame(123);
     game.start();
 
     do {
@@ -202,7 +241,7 @@ describe('Game', () => {
   });
 
   it('Cards are not placed in rows before all players played', () => {
-    const { game, player1 } = initGame('123');
+    const { game, player1 } = initGame(123);
 
     game.start();
 
