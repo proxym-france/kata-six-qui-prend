@@ -3,6 +3,7 @@ Feature: Prepare a Game
   I want to define the number of players
   So that everyone around the table can play
 
+  @only
   Rule: The number of players is between 2 and 10
     Example: Minimum number of players
       Given the game master selects 2 players

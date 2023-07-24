@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "lib": [
       "dom",
       "dom.iterable",
@@ -13,25 +15,19 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "noEmit": false,
+    "noEmitHelpers": false
   },
   "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "test_e2e/**/*.ts",
-    "src/**/*.tsx"
+    "steps/**/*.ts",
   ],
   "exclude": [
-    "src/stories",
-    "src/tests",
+    "node_modules",
   ]
 }
