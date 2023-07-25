@@ -11,8 +11,13 @@ export const ConfigComponent = (props: {
   const [playerId, setPlayerId] = useState(0);
 
   const startGame = (): void => {
-    game.start();
-    props.onStartGame();
+    try {
+      game.start();
+      props.onStartGame();
+    } catch (err: any) {
+      alert(err.message);
+      console.error('Unable to start game', err);
+    }
   };
 
   const addPlayer = (): void => {
