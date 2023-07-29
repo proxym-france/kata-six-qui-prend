@@ -97,4 +97,16 @@ describe('Player', () => {
     expect(player.returnCards()).toEqual(expect.arrayContaining([obj1, obj2]));
     expect(player.wonCards).toHaveLength(0);
   });
+
+  it('Hand is always ordered in ascending order', () => {
+    const player = new Player('p1');
+
+    player.receiveCard(new Card(1));
+    player.receiveCard(new Card(3));
+    player.receiveCard(new Card(5));
+
+    player.receiveCard(new Card(4));
+
+    expect(player.hand[2]).toEqual(new Card(4));
+  });
 });

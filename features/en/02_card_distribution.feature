@@ -15,14 +15,15 @@ Feature: Card Distribution
 
   Rule: Each player receives 10 random cards at the beginning of the game
     Example: 10 random cards
-      Given I am a player
+      Given the game has started
       When I receive my cards at the beginning of the game
       Then the cards are random
       And I have ten cards in my hand
 
+  @only
   Rule: The player's cards are sorted in ascending order
     Example: Ascending order
-      Given I am a player
+      Given the game has started
       When I receive my cards at the beginning of the game
       Then my cards are sorted in ascending order
 

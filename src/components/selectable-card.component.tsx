@@ -26,7 +26,7 @@ export function SelectableCardComponent(props: CardComponentParams): React.JSX.E
       onDoubleClick={() => props.playCard(props.card)}
       onClick={() => props.selectCard(props.card)}
     >
-      {props.card.number}
+      <span className={'numeral'}>{props.card.number}</span>
       <div className={'points'}>{points}</div>
     </div>
   );

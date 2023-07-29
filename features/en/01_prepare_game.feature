@@ -3,7 +3,6 @@ Feature: Prepare a Game
   I want to define the number of players
   So that everyone around the table can play
 
-  @only
   Rule: The number of players is between 2 and 10
     Example: Minimum number of players
       Given the game master selects 2 players
@@ -14,6 +13,7 @@ Feature: Prepare a Game
       Given the game master selects only 1 player
       When we try to start the game
       Then the game does not start
+  @not_developed
   Rule: Each player is assigned a color
     For each game, the mapping is fixed, as follows:
     2 = Blue

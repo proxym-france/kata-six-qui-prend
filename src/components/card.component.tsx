@@ -14,7 +14,7 @@ export function CardComponent(props: { card: Card }): React.JSX.Element {
 
   return (
     <div className={'card'}>
-      {props.card.number}
+      <span className={'numeral'}>{props.card.number}</span>
       <div className={'points'}>{points}</div>
     </div>
   );

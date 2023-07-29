@@ -38,7 +38,12 @@ export class Player {
     if (this._hand.length === 10) {
       throw new Error('Player cannot hold more than 10 cards');
     }
+
     this._hand.push(card);
+
+    this._hand.sort((a: Card, b: Card): number => {
+      return a.number - b.number;
+    });
   }
 
   playCard(number: number | undefined): void {

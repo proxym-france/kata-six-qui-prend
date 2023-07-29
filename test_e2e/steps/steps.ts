@@ -4,7 +4,7 @@ import { type GameWorld } from './support/game-world';
 import { takeScreenshot, waitForNetworkIdle } from './support/helpers';
 import expect from 'expect';
 
-async function selectPlayers(this: GameWorld, players: number): Promise<void> {
+export async function selectPlayers(this: GameWorld, players: number): Promise<void> {
   const driver = this.driver;
 
   const webElement = await driver.wait(until.elementLocated(By.id('add-player')));
@@ -12,6 +12,14 @@ async function selectPlayers(this: GameWorld, players: number): Promise<void> {
   for (let i = 0; i < players; i++) {
     await webElement.click();
   }
+}
+
+export async function startGame(this: GameWorld): Promise<void> {
+  const driver = this.driver;
+
+  const locator = By.id('start-game');
+  await driver.wait(until.elementLocated(locator));
+  await driver.findElement(locator).click();
 }
 
 Given('the game master selects {int} players', async function (this: GameWorld, players: number) {
@@ -23,11 +31,7 @@ Given('the game master selects only 1 player', async function (this: GameWorld) 
 });
 
 When('we try to start the game', async function (this: GameWorld) {
-  const driver = this.driver;
-
-  const locator = By.id('start-game');
-  await driver.wait(until.elementLocated(locator));
-  await driver.findElement(locator).click();
+  await startGame.call(this);
 });
 
 Then('the game starts', async function (this: GameWorld) {
