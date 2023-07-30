@@ -101,7 +101,13 @@ function App(props: { game: Game }): React.JSX.Element {
       <>
         <h2>Six Takes Game</h2>
         <div>Game seed: {props.game.seed}</div>
-        {<BoardComponent rows={state.rows} trick={state.trick} />}
+        {
+          <BoardComponent
+            deckCards={props.game.deck.cards.length}
+            rows={state.rows}
+            trick={state.trick}
+          />
+        }
         {<br />}
         <HandComponent
           key={state.currentPlayer?.name}

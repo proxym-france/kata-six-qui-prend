@@ -4,5 +4,5 @@ import { type WebDriver, type WebElement } from 'selenium-webdriver';
 export class GameWorld extends World {
   public driver!: WebDriver;
   public handElement!: WebElement;
-  public cards!: WebElement[];
+  public hand!: WebElement[];
 }

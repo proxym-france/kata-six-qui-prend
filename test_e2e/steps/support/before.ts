@@ -1,4 +1,4 @@
-import { After, Before } from '@cucumber/cucumber';
+import { After, AfterStep, Before } from '@cucumber/cucumber';
 import { Builder, until } from 'selenium-webdriver';
 import { type GameWorld } from './game-world';
 
@@ -25,4 +25,8 @@ After(async function (this: GameWorld) {
   } catch (e) {
     console.error('Error closing driver', e);
   }
+});
+
+AfterStep(async function (this: GameWorld): Promise<void> {
+  await this.driver.sleep(0);
 });

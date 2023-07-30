@@ -1,3 +1,4 @@
+@only
 Feature: Prepare a Game
   As a game master
   I want to define the number of players
