@@ -116,7 +116,9 @@ function App(props: { game: Game }): React.JSX.Element {
           cards={state.hand}
         ></HandComponent>
         <br />
-        <button onClick={done}>Done</button>
+        <button id="done" onClick={done}>
+          Done
+        </button>
       </>
     );
   } else {

@@ -9,7 +9,7 @@ interface CardComponentParams {
 }
 
 export function SelectableCardComponent(props: CardComponentParams): React.JSX.Element {
-  const className = `card ${props?.card.selected ?? false ? 'selected' : ''}`;
+  const className = `card visible ${props?.card.selected ?? false ? 'selected' : ''}`;
 
   const points: React.JSX.Element[] = [];
   for (let i = 0; i < props.card.points; i++) {
@@ -22,6 +22,8 @@ export function SelectableCardComponent(props: CardComponentParams): React.JSX.E
 
   return (
     <div
+      data-number={props.card.number}
+      data-points={props.card.points}
       className={className}
       onDoubleClick={() => props.playCard(props.card)}
       onClick={() => props.selectCard(props.card)}

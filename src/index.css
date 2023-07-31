@@ -91,6 +91,10 @@ code {
     align-items: center;
 }
 
+.player {
+    padding: 1rem;
+}
+
 .current {
     background-color: #61dafb;
 }

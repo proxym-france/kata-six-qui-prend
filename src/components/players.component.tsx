@@ -13,7 +13,7 @@ export const PlayersComponent = (props: {
     <div className={'players'}>
       <h2>Players</h2>
       {props.players.map((player) => (
-        <div key={player.name} className={`players ${isCurrent(player.name)}`}>
+        <div key={player.name} className={`player ${isCurrent(player.name)}`}>
           <div>
             Player <b>{player.name}</b>
           </div>

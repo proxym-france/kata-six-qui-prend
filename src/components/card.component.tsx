@@ -13,7 +13,7 @@ export function CardComponent(props: { card: Card }): React.JSX.Element {
   }
 
   return (
-    <div className={'card'}>
+    <div className={'card visible'} data-number={props.card.number} data-points={props.card.points}>
       <span className={'numeral'}>{props.card.number}</span>
       <div className={'points'}>{points}</div>
     </div>
