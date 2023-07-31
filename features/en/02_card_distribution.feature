@@ -1,3 +1,4 @@
+@only
 Feature: Card Distribution
   As a player
   I want the cards to be distributed automatically

@@ -1,3 +1,4 @@
+@only
 Feature: Take a Turn
   As a player
   I want to take my turn
@@ -21,12 +22,12 @@ Feature: Take a Turn
       When it's the second player's turn to play
       Then they cannot see the cards of the first player
 
-  @only
   Rule: Players all select a card to play
     Example: Play a card
       Given it's my turn to play
       When I select a card from my hand
       Then the card is played in the trick
+      And the card is removed from my hand
 
     Example: Change card
       Given it's my turn to play
