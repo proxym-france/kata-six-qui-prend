@@ -2,7 +2,7 @@ import { type Card } from './card';
 
 type OnPlayCardCallback = (player: Player, card: Card) => void;
 
-export const CARDS_PER_PLAYER = 10;
+export const MAX_CARDS_PER_PLAYER = 10;
 
 export class Player {
   private _hand: Card[] = [];
@@ -40,7 +40,7 @@ export class Player {
   }
 
   public receiveCard(card: Card): void {
-    if (this._hand.length === CARDS_PER_PLAYER) {
+    if (this._hand.length === MAX_CARDS_PER_PLAYER) {
       throw new Error('Player cannot hold more than 10 cards');
     }
 

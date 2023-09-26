@@ -1,4 +1,4 @@
-import { CARDS_PER_PLAYER, type Player } from './player';
+import { MAX_CARDS_PER_PLAYER, type Player } from './player';
 import { Deck } from './deck';
 import { type Card } from './card';
 import { Board } from './board';
@@ -153,7 +153,7 @@ export class Game {
     }
 
     for (const player of this._players) {
-      for (let i = 0; i < CARDS_PER_PLAYER; i++) {
+      for (let i = 0; i < MAX_CARDS_PER_PLAYER; i++) {
         const card = this._deck.drawCard();
 
         if (card === undefined) {

@@ -12,6 +12,7 @@ import {
   playCard,
   playHighestCard
 } from './support/helpers';
+import { MAX_CARDS_PER_PLAYER } from '../../src/model/player';
 
 Given(/^the game has two players$/, async function (this: GameWorld) {
   const players = await this.driver.findElements(By.className('player'));
@@ -29,7 +30,7 @@ Then(/^they cannot see the cards of the second player$/, async function (this: G
   const handElements = await this.driver.findElements(By.className('hand'));
   const allVisibleCards = await this.driver.findElements(By.css('.card.visible'));
   expect(handElements).toHaveLength(1);
-  expect(allVisibleCards).toHaveLength(14);
+  expect(allVisibleCards).toHaveLength(MAX_CARDS_PER_PLAYER + 4);
 });
 
 When(/^it's the second player's turn to play$/, async function (this: GameWorld) {
@@ -84,7 +85,7 @@ Then(/^the card is removed from my hand$/, async function (this: GameWorld) {
 
   const cards = await getPreviousPlayerCards(this.driver);
 
-  expect(cards.length).toEqual(9);
+  expect(cards.length).toEqual(MAX_CARDS_PER_PLAYER - 1);
 });
 
 When(/^I finish my turn$/, async function (this: GameWorld) {
@@ -104,7 +105,7 @@ Then(/^my cards are hidden, both in hand and in trick$/, async function (this: G
   expect(classes).toEqual('card hidden');
   const visibleCards = await getPlayerCardsRaw(this.driver, true);
 
-  expect(visibleCards).toHaveLength(10);
+  expect(visibleCards).toHaveLength(MAX_CARDS_PER_PLAYER);
 });
 
 Then(/^it's the next player's turn to play$/, async function (this: GameWorld) {
@@ -123,7 +124,7 @@ When(/^I press next$/, async function (this: GameWorld) {
 
 When(/^then my cards in my hand are shown$/, async function (this: GameWorld) {
   const visibleCards = await getPlayerCardsRaw(this.driver);
-  expect(visibleCards).toHaveLength(10);
+  expect(visibleCards).toHaveLength(MAX_CARDS_PER_PLAYER);
 });
 
 When(/^the card the previous player played is hidden$/, async function (this: GameWorld) {
