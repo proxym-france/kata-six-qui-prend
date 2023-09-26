@@ -6,32 +6,32 @@ Feature: Prepare a Game
   Rule: The number of players is between 2 and 10
     Example: Minimum number of players
       Given the game master selects 2 players
-      When we try to start the game
+      When we start the game
       Then the game starts
 
     Example: Too few players
       Given the game master selects only 1 player
-      When we try to start the game
+      When we start the game
       Then the game does not start
 
-  @not_developed
+  @only
   Rule: Each player is assigned a color
     For each game, the mapping is fixed, as follows:
-    2 = Blue
-    3 = Red
-    4 = Yellow
-    5 = Green
-    6 = Orange
-    7 = Purple
-    8 = Pink
-    9 = Brown
-    10 = Gray
+    1 = Blue
+    2 = Red
+    3 = Yellow
+    4 = Green
+    5 = Orange
+    6 = Purple
+    7 = Pink
+    8 = Brown
+    9 = Gray
     Scenario Outline:
-      When I am player number <num>
-      When the game starts
+      Given I am player number <num>
+      When we start the game
       Then I have the following color <color>
       Examples:
         | num | color  |
-        | 2   | Blue   |
-        | 6   | Orange |
-        | 9   | Brown  |
+        | 2   | red   |
+        | 5   | orange |
+        | 8   | brown  |

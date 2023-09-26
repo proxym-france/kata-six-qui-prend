@@ -38,7 +38,7 @@ Feature: Take a Turn
     Example: Next player
       Given it's my turn to play
       When I finish my turn
-      And it's the next player's turn to play
+      Then it's the next player's turn to play
 
   Rule: Cards are hidden between player turns
     Example: Finish my turn

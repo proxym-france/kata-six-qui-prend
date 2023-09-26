@@ -8,7 +8,7 @@ export const ConfigComponent = (props: {
   onAddPlayer: any;
 }): React.JSX.Element => {
   const game = props.game;
-  const [playerId, setPlayerId] = useState(0);
+  const [playerId, setPlayerId] = useState(1);
 
   const startGame = (): void => {
     try {
@@ -21,7 +21,7 @@ export const ConfigComponent = (props: {
   };
 
   const addPlayer = (): void => {
-    game.addPlayer(new Player(playerId.toString()));
+    game.addPlayer(new Player(playerId, playerId.toString()));
     setPlayerId(playerId + 1);
     props.onAddPlayer();
   };

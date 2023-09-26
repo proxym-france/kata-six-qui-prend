@@ -28,7 +28,7 @@ Given('the game master selects only 1 player', async function (this: GameWorld) 
   await selectPlayers(this, 1);
 });
 
-When('we try to start the game', async function (this: GameWorld) {
+When('we start the game', async function (this: GameWorld) {
   await startGame(this, true);
 });
 
@@ -48,4 +48,15 @@ Then('the game does not start', async function (this: GameWorld) {
   const alertText = await alert.getText();
 
   expect(alertText).toBe('Need at least two players');
+});
+
+When(/^I am player number (.*)$/, async function (this: GameWorld, playerNumber: number) {
+  this.playerNumber = playerNumber;
+  await selectPlayers(this, playerNumber);
+});
+
+Then(/^I have the following color (.*)$/, async function (this: GameWorld, color: string) {
+  const webElementPromise = await this.driver.findElement(By.id(this.playerNumber.toString()));
+  const classes = await webElementPromise.getAttribute('class');
+  expect(classes).toContain(color);
 });

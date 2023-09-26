@@ -1,10 +1,15 @@
 import { Player } from '../src/model/player';
 import { Card } from '../src/model/card';
 import { Game } from '../src/model/game';
+import expect from 'expect';
+
+const createPlayer = (): Player => {
+  return new Player(1, 'p1');
+};
 
 describe('Player', () => {
   it('Can receive cards in their hand', () => {
-    const player = new Player('p1');
+    const player = createPlayer();
 
     const card = new Card(1);
 
@@ -14,7 +19,7 @@ describe('Player', () => {
   });
 
   it('Cannot play if not part of a game', () => {
-    const player = new Player('p1');
+    const player = createPlayer();
 
     const card = new Card(1);
 
@@ -24,7 +29,7 @@ describe('Player', () => {
   });
 
   it('Cannot play a card that is not in their hand', () => {
-    const player = new Player('p1');
+    const player = createPlayer();
 
     const card = new Card(1);
 
@@ -34,8 +39,8 @@ describe('Player', () => {
   });
 
   it('When playing a card it is removed from their hand', () => {
-    const player1 = new Player('p1');
-    const player2 = new Player('p2');
+    const player1 = createPlayer();
+    const player2 = new Player(2, 'p2');
 
     const card1 = new Card(1);
     const card2 = new Card(2);
@@ -52,13 +57,13 @@ describe('Player', () => {
   });
 
   it('Has a score equal to the points of the cards they won', () => {
-    const player = new Player('p1');
+    const player = createPlayer();
     player.winPoints([new Card(55), new Card(1)]);
     expect(player.points).toBe(8);
   });
 
   it("Can play it's highest hard", () => {
-    const player = new Player('p1');
+    const player = createPlayer();
 
     // eslint-disable-next-line @typescript-eslint/dot-notation
     player['_hand'] = [new Card(1), new Card(88), new Card(3)];
@@ -67,7 +72,7 @@ describe('Player', () => {
   });
 
   it('Cannot hold more than 10 cards', () => {
-    const player = new Player('p1');
+    const player = createPlayer();
 
     // eslint-disable-next-line @typescript-eslint/dot-notation
     player['_hand'] = [
@@ -87,7 +92,7 @@ describe('Player', () => {
   });
 
   it('Can return the cards they won', () => {
-    const player = new Player('p1');
+    const player = createPlayer();
 
     player.winPoints([new Card(1), new Card(2)]);
 
@@ -99,7 +104,7 @@ describe('Player', () => {
   });
 
   it('Hand is always ordered in ascending order', () => {
-    const player = new Player('p1');
+    const player = createPlayer();
 
     player.receiveCard(new Card(1));
     player.receiveCard(new Card(3));
@@ -108,5 +113,20 @@ describe('Player', () => {
     player.receiveCard(new Card(4));
 
     expect(player.hand[2]).toEqual(new Card(4));
+  });
+
+  it.each([
+    { number: 1, color: 'blue' },
+    { number: 2, color: 'red' },
+    { number: 3, color: 'yellow' },
+    { number: 4, color: 'green' },
+    { number: 5, color: 'orange' },
+    { number: 6, color: 'purple' },
+    { number: 7, color: 'pink' },
+    { number: 8, color: 'brown' },
+    { number: 9, color: 'gray' }
+  ])('has an associated color', (playerColor) => {
+    const player = new Player(playerColor.number, 'Player 1');
+    expect(player.color).toEqual(playerColor.color);
   });
 });

@@ -4,8 +4,8 @@ import { Card } from '../src/model/card';
 
 const initGame = (seed?: number): { game: Game; player1: Player; player2: Player } => {
   const game = new Game(seed);
-  const player1 = new Player('p1');
-  const player2 = new Player('p2');
+  const player1 = new Player(1, 'p1');
+  const player2 = new Player(2, 'p2');
 
   game.addPlayer(player1);
   game.addPlayer(player2);
@@ -20,14 +20,14 @@ describe('Game', () => {
   it('Has players', () => {
     const game = new Game();
 
-    game.addPlayer(new Player('p1'));
+    game.addPlayer(new Player(1, 'p1'));
 
     expect(game.players).toHaveLength(1);
   });
 
   it('Cannot be started with only one player', () => {
     const game = new Game();
-    game.addPlayer(new Player('p1'));
+    game.addPlayer(new Player(1, 'p1'));
 
     expect(() => game.start()).toThrow();
   });
@@ -131,8 +131,8 @@ describe('Game', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const game = new Game(-1);
 
-    const player1 = new Player('p1');
-    const player2 = new Player('p2');
+    const player1 = new Player(1, 'p1');
+    const player2 = new Player(2, 'p2');
 
     game.addPlayer(player1);
     game.addPlayer(player2);
@@ -210,7 +210,7 @@ describe('Game', () => {
   it('Cannot add twice the same player', () => {
     const { game } = initGame(123);
 
-    expect(() => game.addPlayer(new Player('p1'))).toThrow();
+    expect(() => game.addPlayer(new Player(1, 'p1'))).toThrow();
   });
 
   it('All players return their cards at the end of a manche', () => {

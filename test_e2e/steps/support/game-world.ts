@@ -7,6 +7,7 @@ export class GameWorld extends World {
   public hand!: WebElement[];
   public firstPlayerCards!: number[];
   public playedCards: number[];
+  public playerNumber: number = -1;
 
   constructor(props: IWorldOptions) {
     super(props);

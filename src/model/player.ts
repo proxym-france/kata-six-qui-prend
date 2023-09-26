@@ -5,17 +5,48 @@ type OnPlayCardCallback = (player: Player, card: Card) => void;
 export const MAX_CARDS_PER_PLAYER = 10;
 
 export class Player {
+  private readonly _number: number;
   private _hand: Card[] = [];
   private readonly _name: string;
   private _onPlayCard: OnPlayCardCallback | undefined;
   private _points: number = 0;
   private _wonCards: Card[] = [];
 
-  constructor(name: string, hand: Card[] = [], points = 0, wonCards: Card[] = []) {
+  constructor(number: number, name: string, hand: Card[] = [], points = 0, wonCards: Card[] = []) {
+    this._number = number;
     this._name = name;
     this._hand = hand;
     this._points = points;
     this._wonCards = wonCards;
+  }
+
+  public get number(): number {
+    return this._number;
+  }
+
+  public get color(): string {
+    switch (this._number) {
+      case 1:
+        return 'blue';
+      case 2:
+        return 'red';
+      case 3:
+        return 'yellow';
+      case 4:
+        return 'green';
+      case 5:
+        return 'orange';
+      case 6:
+        return 'purple';
+      case 7:
+        return 'pink';
+      case 8:
+        return 'brown';
+      case 9:
+        return 'gray';
+      default:
+        return 'black';
+    }
   }
 
   public get wonCards(): Card[] {

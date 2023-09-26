@@ -23,7 +23,7 @@ When(/^it's the first player's turn to play$/, async function (this: GameWorld) 
   const players = await this.driver.findElements(By.className('player'));
   const className = await players[0].getAttribute('class');
 
-  expect(className).toBe('player current');
+  expect(className).toContain('player current');
 });
 
 Then(/^they cannot see the cards of the second player$/, async function (this: GameWorld) {
@@ -40,7 +40,7 @@ When(/^it's the second player's turn to play$/, async function (this: GameWorld)
   const players = await this.driver.findElements(By.className('player'));
   const className = await players[1].getAttribute('class');
 
-  expect(className).toBe('player current');
+  expect(className).toContain('player current');
 });
 
 Then(/^they cannot see the cards of the first player$/, async function (this: GameWorld) {
@@ -110,7 +110,7 @@ Then(/^my cards are hidden, both in hand and in trick$/, async function (this: G
 
 Then(/^it's the next player's turn to play$/, async function (this: GameWorld) {
   const text = await getCurrentPlayer(this.driver);
-  expect(text).toEqual('Player 1');
+  expect(text).toEqual('Player 2');
 });
 
 Given(/^A player has payed before me$/, async function (this: GameWorld) {
@@ -135,7 +135,7 @@ When(/^the card the previous player played is hidden$/, async function (this: Ga
 
 Then(/^it's the first player's turn to start the next round$/, async function (this: GameWorld) {
   const currentPlayer = await getCurrentPlayer(this.driver);
-  expect(currentPlayer).toEqual('Player 0');
+  expect(currentPlayer).toEqual('Player 1');
 });
 
 Given(/^I am the last player$/, async function (this: GameWorld) {
