@@ -1,3 +1,4 @@
+@not_developed
 Feature: End of Turn
   The game is played in turns.
   At the end of each turn, the cards are automatically placed in the right position.

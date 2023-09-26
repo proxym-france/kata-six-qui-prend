@@ -1,3 +1,4 @@
+@not_developed
 Feature: End of the Game
   The game ends when a player collects 66 or more points.
 

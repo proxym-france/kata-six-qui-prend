@@ -1,5 +1,6 @@
 import React from 'react';
 import { type SelectableCard } from './hand.component';
+import { renderPointsBlock } from './card.component';
 
 interface CardComponentParams {
   card: SelectableCard;
@@ -9,16 +10,11 @@ interface CardComponentParams {
 }
 
 export function SelectableCardComponent(props: CardComponentParams): React.JSX.Element {
-  const className = `card visible ${props?.card.selected ?? false ? 'selected' : ''}`;
+  const className = `card ${props.card.hidden ? 'hidden' : 'visible'} ${
+    props?.card.selected ?? false ? 'selected' : ''
+  }`;
 
-  const points: React.JSX.Element[] = [];
-  for (let i = 0; i < props.card.points; i++) {
-    points.push(
-      <span key={`point-${i}`} className={'point'}>
-        *
-      </span>
-    );
-  }
+  const pointsBlock = renderPointsBlock(props);
 
   return (
     <div
@@ -28,8 +24,7 @@ export function SelectableCardComponent(props: CardComponentParams): React.JSX.E
       onDoubleClick={() => props.playCard(props.card)}
       onClick={() => props.selectCard(props.card)}
     >
-      <span className={'numeral'}>{props.card.number}</span>
-      <div className={'points'}>{points}</div>
+      {pointsBlock}
     </div>
   );
 }

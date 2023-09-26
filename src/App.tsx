@@ -26,6 +26,20 @@ function App(props: { game: Game }): React.JSX.Element {
     isStarted: false
   });
 
+  const showCurrentPlayerCards = (): void => {
+    props.game.currentPlayer?.hand.forEach((card) => card.show());
+  };
+
+  props.game.turnCallback = () => {
+    showCurrentPlayerCards();
+    state.rows.flatMap((row) => row.cards).forEach((card) => card.show());
+
+    setState({
+      ...state,
+      trick: [...state.trick]
+    });
+  };
+
   let selectedCard: SelectableCard;
 
   function playCard(): void {
@@ -66,20 +80,36 @@ function App(props: { game: Game }): React.JSX.Element {
     }
   }
 
-  const done = (): void => {
+  const next = (): void => {
     const currentPlayerCard = state.trick.find(
       (c) => c.player.name === props.game.currentPlayer?.name
     );
     if (currentPlayerCard != null) {
       try {
         props.game.currentPlayer?.playCard(currentPlayerCard.card.number);
+        showCurrentPlayerCards();
       } catch (error) {
+        showCurrentPlayerCards();
         if (error instanceof Error) {
           alert(`error ${error.message}`);
         }
       }
     }
     initState();
+  };
+
+  const done = (): void => {
+    if (state.currentPlayer == null) {
+      throw new Error('There is no current player !');
+    }
+
+    state.trick.forEach((cardAndPlayer) => cardAndPlayer.card.hide());
+    state.currentPlayer?.hand.forEach((card) => card.hide());
+
+    setState({
+      ...state,
+      trick: [...state.trick]
+    });
   };
 
   const onStartGame = (): void => {
@@ -118,6 +148,12 @@ function App(props: { game: Game }): React.JSX.Element {
         <br />
         <button id="done" onClick={done}>
           Done
+        </button>
+        <button id="cancel" onClick={showCurrentPlayerCards}>
+          Cancel
+        </button>
+        <button id="next" onClick={next}>
+          Next
         </button>
       </>
     );

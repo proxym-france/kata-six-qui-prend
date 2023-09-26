@@ -1,4 +1,3 @@
-@only
 Feature: Take a Turn
   As a player
   I want to take my turn
@@ -38,11 +37,21 @@ Feature: Take a Turn
   Rule: Players take turns playing
     Example: Next player
       Given it's my turn to play
-      And I am player number 1
       When I finish my turn
-      Then my card in the trick is hidden
-      Then it's the next player's turn to play
+      And it's the next player's turn to play
 
+  @not_developed
+  Rule: Cards are hidden between player turns
+    Example: 1
+      When I finish my turn
+      Then my cards are hidden, both in hand and in trick
+      And I can pass to the next player
+    Example: 2
+      Given a player has payed before me
+      When it's my turn to play
+      Then I cannot see
+
+  @not_developed
   Rule: Once all players have taken their turns, the round is finished
     Example: End of round
       Given I am the last player

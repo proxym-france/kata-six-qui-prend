@@ -2,6 +2,8 @@ import { type Card } from './card';
 
 type OnPlayCardCallback = (player: Player, card: Card) => void;
 
+export const CARDS_PER_PLAYER = 10;
+
 export class Player {
   private _hand: Card[] = [];
   private readonly _name: string;
@@ -9,8 +11,11 @@ export class Player {
   private _points: number = 0;
   private _wonCards: Card[] = [];
 
-  constructor(name: string) {
+  constructor(name: string, hand: Card[] = [], points = 0, wonCards: Card[] = []) {
     this._name = name;
+    this._hand = hand;
+    this._points = points;
+    this._wonCards = wonCards;
   }
 
   public get wonCards(): Card[] {
@@ -35,7 +40,7 @@ export class Player {
   }
 
   public receiveCard(card: Card): void {
-    if (this._hand.length === 10) {
+    if (this._hand.length === CARDS_PER_PLAYER) {
       throw new Error('Player cannot hold more than 10 cards');
     }
 

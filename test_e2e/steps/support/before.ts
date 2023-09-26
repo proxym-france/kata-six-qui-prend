@@ -12,7 +12,8 @@ Before(async function (this: GameWorld) {
     await driver.get('http://localhost:3000');
     await driver.wait(until.titleIs('React App'));
     console.log('done');
-  } catch {
+  } catch (error: any) {
+    console.log('Error opening browser', error);
     await this.driver.quit();
   }
 });

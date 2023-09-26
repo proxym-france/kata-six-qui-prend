@@ -23,6 +23,18 @@ export const getPlayerCards = async (driver: WebDriver): Promise<number[]> => {
   return await Promise.all((await hand.findElements(By.className('card'))).map(getNumeral));
 };
 
+export const getPreviousPlayerCards = async (driver: WebDriver): Promise<number[]> => {
+  return await driver.executeScript(async () => {
+    const promise = new Promise((resolve) => {
+      requestIdleCallback(() => {
+        resolve((document as any).game._players[0]._hand.map((card: any) => card._number));
+      });
+    });
+
+    return await promise;
+  });
+};
+
 export const selectPlayers = async (world: GameWorld, players: number): Promise<void> => {
   const driver = world.driver;
 
@@ -35,9 +47,12 @@ export const selectPlayers = async (world: GameWorld, players: number): Promise<
 
 export const takeScreenshot = async (world: GameWorld, driver: WebDriver): Promise<void> => {
   const screenshot = await driver.takeScreenshot();
+  fs.writeFileSync('./report/game_started.png', screenshot, { encoding: 'base64' });
 
-  world.attach(screenshot, 'image/png');
-  fs.writeFileSync('./report/game_started.png', screenshot, 'base64');
+  world.attach(screenshot, {
+    mediaType: 'base64:image/png',
+    fileName: './report/game_started.png'
+  });
 };
 
 export const playHighestCard = async (
@@ -52,6 +67,7 @@ export const playHighestCard = async (
 
   if (done) {
     await driver.findElement(By.id('done')).click();
+    await driver.findElement(By.id('next')).click();
   }
 
   return max;
@@ -69,6 +85,7 @@ export const playCard = async (
 
   if (done) {
     await driver.findElement(By.id('done')).click();
+    await driver.findElement(By.id('next')).click();
   }
 
   return parseInt(await nthCard.getAttribute('data-number'));

@@ -15,6 +15,14 @@ describe('Card', () => {
     expect(() => new Card(-1)).toThrow();
   });
 
+  it('Can be hidden', () => {
+    const card = new Card(1);
+    expect(card.hidden).toBe(false);
+    card.hide();
+
+    expect(card.hidden).toBe(true);
+  });
+
   describe('Cards carry negative points', () => {
     it('2 points for all cards ending in 5', () => {
       const card = new Card(5);

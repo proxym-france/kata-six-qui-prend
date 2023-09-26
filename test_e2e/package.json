@@ -10,14 +10,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@cucumber/cucumber": "^9.3.0",
-    "@types/selenium-webdriver": "^4.1.15",
-    "assert": "^2.0.0",
-    "selenium-webdriver": "^4.10.0",
+    "@cucumber/cucumber": "^9.5.1",
+    "@types/selenium-webdriver": "^4.1.17",
+    "assert": "^2.1.0",
+    "selenium-webdriver": "^4.13.0",
     "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "install": "^0.13.0",
     "npm": "^9.8.1"
   }
 }

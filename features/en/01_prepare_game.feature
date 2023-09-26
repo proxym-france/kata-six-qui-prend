@@ -1,4 +1,3 @@
-@only
 Feature: Prepare a Game
   As a game master
   I want to define the number of players
@@ -14,6 +13,7 @@ Feature: Prepare a Game
       Given the game master selects only 1 player
       When we try to start the game
       Then the game does not start
+
   @not_developed
   Rule: Each player is assigned a color
     For each game, the mapping is fixed, as follows:

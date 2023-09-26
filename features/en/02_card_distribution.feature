@@ -1,4 +1,3 @@
-@only
 Feature: Card Distribution
   As a player
   I want the cards to be distributed automatically
@@ -19,7 +18,7 @@ Feature: Card Distribution
       Given the game has started
       When I receive my cards at the beginning of the game
       Then the cards are random
-      And I have ten cards in my hand
+      And I have 10 cards in my hand
 
   Rule: The player's cards are sorted in ascending order
     Example: Ascending order

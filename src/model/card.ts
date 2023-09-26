@@ -1,5 +1,6 @@
 export class Card {
   private readonly _number: number;
+  private _hidden = false;
 
   constructor(number: number) {
     if (number < 1 || number > 104) {
@@ -10,6 +11,18 @@ export class Card {
 
   public get number(): number {
     return this._number;
+  }
+
+  public get hidden(): boolean {
+    return this._hidden;
+  }
+
+  public hide(): void {
+    this._hidden = true;
+  }
+
+  public show(): void {
+    this._hidden = false;
   }
 
   public get points(): number {

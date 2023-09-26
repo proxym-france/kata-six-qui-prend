@@ -7,6 +7,7 @@ import { Game } from './model/game';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const game = new Game();
+(document as any).game = game;
 
 root.render(
   <React.StrictMode>

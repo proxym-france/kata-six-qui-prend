@@ -1,4 +1,4 @@
-import { type Player } from './player';
+import { CARDS_PER_PLAYER, type Player } from './player';
 import { Deck } from './deck';
 import { type Card } from './card';
 import { Board } from './board';
@@ -18,6 +18,7 @@ export class Game {
   private _trick: CardAndPlayer[] = [];
   private _manche: number = 1;
   private readonly _seed: number;
+  private _turnCallback: any = undefined;
 
   constructor(_seed?: number) {
     this._isStarted = false;
@@ -25,6 +26,10 @@ export class Game {
     this._board = new Board();
     this._currentPlayer = 0;
     this._seed = _seed != null ? _seed : Math.random();
+  }
+
+  public set turnCallback(turnCallback: any) {
+    this._turnCallback = turnCallback;
   }
 
   public get seed(): number {
@@ -68,6 +73,7 @@ export class Game {
     // Tour completed
     if (this._currentPlayer >= this.players.length) {
       this._currentPlayer = 0;
+
       for (const cardAndPlayer of this.trick) {
         this.playCardsPriv(cardAndPlayer.card, cardAndPlayer.player);
       }
@@ -75,6 +81,10 @@ export class Game {
 
       if (player.hand.length === 0) {
         this.start();
+      }
+
+      if (this._turnCallback !== undefined) {
+        this._turnCallback();
       }
     }
   };
@@ -143,7 +153,7 @@ export class Game {
     }
 
     for (const player of this._players) {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < CARDS_PER_PLAYER; i++) {
         const card = this._deck.drawCard();
 
         if (card === undefined) {

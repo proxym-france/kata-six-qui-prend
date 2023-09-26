@@ -65,6 +65,11 @@ code {
     justify-content: center;
 }
 
+.card.hidden {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/d/d4/Card_back_01.svg");
+    background-repeat: round;
+}
+
 #deck {
     background-image: url("https://upload.wikimedia.org/wikipedia/commons/d/d4/Card_back_01.svg");
     background-repeat: round;

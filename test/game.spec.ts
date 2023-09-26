@@ -86,6 +86,17 @@ describe('Game', () => {
     expect(game.currentPlayer?.name).toBe('p1');
   });
 
+  it('Shows all cards when all players have played', () => {
+    const { game, player1, player2 } = initGame();
+
+    game.start();
+
+    player1.playCard(player1.highestCard?.number);
+    player2.playCard(player2.highestCard?.number);
+
+    expect(game.board.cards.find((card) => card.hidden)).toBe(undefined);
+  });
+
   it('Initializes the board with 4 cards', () => {
     const { game } = initGame();
 

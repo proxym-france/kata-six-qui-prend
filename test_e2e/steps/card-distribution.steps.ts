@@ -16,8 +16,8 @@ When(/^I receive my cards at the beginning of the game$/, async function (this: 
 
 Then(/^the cards are random$/, async function (this: GameWorld) {});
 
-Then(/^I have ten cards in my hand$/, async function (this: GameWorld) {
-  expect(this.hand).toHaveLength(10);
+Then('I have {int} cards in my hand', async function (this: GameWorld, expectedCards: number) {
+  expect(this.hand).toHaveLength(expectedCards);
 });
 
 Then(/^my cards are sorted in ascending order$/, async function (this: GameWorld) {
