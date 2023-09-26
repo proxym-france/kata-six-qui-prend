@@ -1,9 +1,13 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import { type GameWorld } from './support/game-world';
-import { By, until, type WebDriver } from 'selenium-webdriver';
+import { By, until, type WebDriver, type WebElement } from 'selenium-webdriver';
 import expect from 'expect';
 import {
+  findTrickCard,
+  getBoardCards,
+  getCurrentPlayer,
   getPlayerCards,
+  getPlayerCardsRaw,
   getPreviousPlayerCards,
   playCard,
   playHighestCard
@@ -67,11 +71,6 @@ Then(/^the card is played in the trick$/, async function (this: GameWorld) {
   expect(attribute).toEqual(this.playedCards[0].toString());
 });
 
-const findTrickCard = async (driver: WebDriver): Promise<any[]> => {
-  const trickElement = await driver.wait(until.elementLocated(By.id('trick')));
-  return await trickElement.findElements(By.className('card'));
-};
-
 Then(/^the new card replaces the previous one$/, async function (this: GameWorld) {
   const trickCards = await findTrickCard(this.driver);
   const trickCardNumber = parseInt(await trickCards[0].getAttribute('data-number'));
@@ -89,6 +88,10 @@ Then(/^the card is removed from my hand$/, async function (this: GameWorld) {
 });
 
 When(/^I finish my turn$/, async function (this: GameWorld) {
+  await playHighestCard(this.driver, true);
+});
+
+When(/^I have played a card$/, async function (this: GameWorld) {
   await playHighestCard(this.driver);
   await this.driver.findElement(By.id('done')).click();
 });
@@ -99,8 +102,48 @@ Then(/^my cards are hidden, both in hand and in trick$/, async function (this: G
   const classes = await trickCards[0].getAttribute('class');
 
   expect(classes).toEqual('card hidden');
+  const visibleCards = await getPlayerCardsRaw(this.driver, true);
+
+  expect(visibleCards).toHaveLength(10);
 });
 
-Then(/^my card in the trick is hidden$/, async function () {});
+Then(/^it's the next player's turn to play$/, async function (this: GameWorld) {
+  const text = await getCurrentPlayer(this.driver);
+  expect(text).toEqual('Player 1');
+});
 
-Then(/^it's the next player's turn to play$/, function (this: GameWorld) {});
+Given(/^A player has payed before me$/, async function (this: GameWorld) {
+  await playHighestCard(this.driver);
+  await this.driver.findElement(By.id('done')).click();
+});
+
+When(/^I press next$/, async function (this: GameWorld) {
+  await this.driver.findElement(By.id('next')).click();
+});
+
+When(/^then my cards in my hand are shown$/, async function (this: GameWorld) {
+  const visibleCards = await getPlayerCardsRaw(this.driver);
+  expect(visibleCards).toHaveLength(10);
+});
+
+When(/^the card the previous player played is hidden$/, async function (this: GameWorld) {
+  const trickCards = await findTrickCard(this.driver);
+  const elementCss = await trickCards[0].getAttribute('class');
+  expect(elementCss).toEqual('card hidden');
+});
+
+Then(/^it's the first player's turn to start the next round$/, async function (this: GameWorld) {
+  const currentPlayer = await getCurrentPlayer(this.driver);
+  expect(currentPlayer).toEqual('Player 0');
+});
+
+Given(/^I am the last player$/, async function (this: GameWorld) {
+  await playHighestCard(this.driver, true);
+});
+
+Then(/^the round of the game is finished$/, async function (this: GameWorld) {
+  const boardCards = await getBoardCards(this.driver);
+
+  // 4 initial cards + 2 after tour ended
+  expect(boardCards).toHaveLength(6);
+});

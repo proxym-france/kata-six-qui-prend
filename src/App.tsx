@@ -28,6 +28,8 @@ function App(props: { game: Game }): React.JSX.Element {
 
   const showCurrentPlayerCards = (): void => {
     props.game.currentPlayer?.hand.forEach((card) => card.show());
+
+    setState({ ...state });
   };
 
   props.game.turnCallback = () => {

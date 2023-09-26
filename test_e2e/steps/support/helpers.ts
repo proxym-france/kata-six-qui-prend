@@ -23,6 +23,13 @@ export const getPlayerCards = async (driver: WebDriver): Promise<number[]> => {
   return await Promise.all((await hand.findElements(By.className('card'))).map(getNumeral));
 };
 
+export const getPlayerCardsRaw = async (
+  webDriver: WebDriver,
+  hidden = false
+): Promise<WebElement[]> => {
+  return await webDriver.findElements(By.css(`.hand .card.${hidden ? 'hidden' : 'visible'}`));
+};
+
 export const getPreviousPlayerCards = async (driver: WebDriver): Promise<number[]> => {
   return await driver.executeScript(async () => {
     const promise = new Promise((resolve) => {
@@ -89,4 +96,18 @@ export const playCard = async (
   }
 
   return parseInt(await nthCard.getAttribute('data-number'));
+};
+
+export const getCurrentPlayer = async (driver: WebDriver): Promise<string> => {
+  const webElementPromise = await driver.findElement(By.css('.player.current .player-name'));
+  return await webElementPromise.getText();
+};
+
+export const findTrickCard = async (driver: WebDriver): Promise<WebElement[]> => {
+  const trickElement = await driver.wait(until.elementLocated(By.id('trick')));
+  return await trickElement.findElements(By.className('card'));
+};
+
+export const getBoardCards = async (driver: WebDriver): Promise<WebElement[]> => {
+  return await driver.findElements(By.css('#board .card.visible'));
 };

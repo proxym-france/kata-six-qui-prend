@@ -40,18 +40,17 @@ Feature: Take a Turn
       When I finish my turn
       And it's the next player's turn to play
 
-  @not_developed
   Rule: Cards are hidden between player turns
-    Example: 1
-      When I finish my turn
+    Example: Finish my turn
+      When I have played a card
       Then my cards are hidden, both in hand and in trick
-      And I can pass to the next player
-    Example: 2
-      Given a player has payed before me
-      When it's my turn to play
-      Then I cannot see
 
-  @not_developed
+    Example: Between player turns
+      Given A player has payed before me
+      When I press next
+      And then my cards in my hand are shown
+      But the card the previous player played is hidden
+
   Rule: Once all players have taken their turns, the round is finished
     Example: End of round
       Given I am the last player

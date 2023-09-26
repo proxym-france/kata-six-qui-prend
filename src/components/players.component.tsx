@@ -14,7 +14,7 @@ export const PlayersComponent = (props: {
       <h2>Players</h2>
       {props.players.map((player) => (
         <div key={player.name} className={`player ${isCurrent(player.name)}`}>
-          <div>
+          <div className="player-name">
             Player <b>{player.name}</b>
           </div>
           <div>
